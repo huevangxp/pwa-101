@@ -27,11 +27,11 @@
         </div>
 
         <!-- Advertisement Space -->
-        <div class="ad-banner">
+        <div class="ad-banner-image">
           <p class="ad-label">Sponsored</p>
-          <h2>Visit Our Website Today!</h2>
-          <p>Discover amazing products and services tailormade for you.</p>
-          <a href="#" class="ad-btn">Learn More</a>
+          <a href="#" class="ad-link">
+            <img src="https://picsum.photos/seed/ads1/800/150" alt="Advertisement" class="ad-img" />
+          </a>
         </div>
       </div>
     </div>
@@ -125,56 +125,48 @@
 }
 
 /* Advertisement Banner */
-.ad-banner {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
-  border: 1px solid rgba(99, 102, 241, 0.3);
-  border-radius: 12px;
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+.ad-banner-image {
   position: relative;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
   margin-top: 0.5rem;
+  background: var(--bg-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .ad-label {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
-  font-size: 0.7rem;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 0.65rem;
   font-weight: 700;
   text-transform: uppercase;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
   padding: 2px 6px;
   border-radius: 4px;
   margin: 0;
+  z-index: 2;
+  backdrop-filter: blur(4px);
 }
 
-.ad-banner h2 {
-  margin: 0;
-  font-size: 1.25rem;
-  color: var(--text-primary);
-}
-
-.ad-banner p {
-  margin: 0 0 0.5rem 0;
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-}
-
-.ad-btn {
-  align-self: flex-start;
-  background: var(--accent-gradient);
-  color: white;
+.ad-link {
+  display: block;
+  width: 100%;
+  height: auto;
   text-decoration: none;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  font-weight: 600;
-  font-size: 0.875rem;
+}
+
+.ad-img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  display: block;
   transition: opacity 0.2s;
 }
 
-.ad-btn:hover {
+.ad-link:hover .ad-img {
   opacity: 0.9;
 }
 

@@ -45,7 +45,7 @@ const triggerInstall = async () => {
         
         <div class="video-primary-info">
           <div class="channel-info">
-            <img :src="`https://ui-avatars.com/api/?name=Ch+${$route.query.v || 1}&background=random&color=fff&size=48`" alt="Channel" class="channel-avatar" />
+            <img :src="`https://i.pravatar.cc/100?img=${parseInt($route.query.v || 1) + 10}`" alt="Channel" class="channel-avatar" />
             <div class="channel-text">
               <h3 class="channel-name">Huevangxp Channel</h3>
               <p class="subscriber-count">1.2M subscribers</p>

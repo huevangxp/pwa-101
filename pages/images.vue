@@ -1,26 +1,40 @@
 <template>
   <div class="images-page">
-    <div class="header">
-      <h1 class="page-title">Photo Gallery</h1>
-      <p class="page-subtitle">Explore our collection of beautiful images</p>
-    </div>
-
     <!-- Advertisement Space -->
     <div class="ad-space-container">
       <div class="ad-banner-image">
         <p class="ad-label">Sponsored</p>
         <a href="#" class="ad-link">
-          <img src="https://picsum.photos/seed/ads3/1200/200" alt="Advertisement" class="ad-img" />
+          <img
+            src="https://picsum.photos/seed/ads3/1200/200"
+            alt="Advertisement"
+            class="ad-img"
+          />
         </a>
       </div>
     </div>
 
     <div class="image-grid">
       <div v-for="i in 16" :key="i" class="image-card">
-        <img :src="`https://picsum.photos/seed/${i + 50}/800/800`" alt="Gallery Image" loading="lazy" />
+        <img
+          :src="`https://picsum.photos/seed/${i + 50}/800/800`"
+          alt="Gallery Image"
+          loading="lazy"
+        />
         <div class="image-overlay">
           <button class="icon-btn">
-            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            <svg
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+              stroke="currentColor"
+              stroke-width="2"
+              fill="none"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
           </button>
         </div>
       </div>
@@ -133,7 +147,7 @@
   left: 0;
   right: 0;
   padding: 1rem;
-  background: linear-gradient(transparent, rgba(0,0,0,0.7));
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
   display: flex;
   justify-content: flex-end;
   opacity: 0;
@@ -145,7 +159,7 @@
 }
 
 .icon-btn {
-  background: rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.2);
   border: none;
   color: white;
   width: 36px;
@@ -159,7 +173,7 @@
 }
 
 .icon-btn:hover {
-  background: rgba(255,255,255,0.4);
+  background: rgba(255, 255, 255, 0.4);
 }
 
 @media (min-width: 640px) {

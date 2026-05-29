@@ -61,41 +61,51 @@ onBeforeUnmount(() => {
       <PromotionalBanner layout="horizontal" />
     </div>
 
-    <!-- Image Grid -->
+    <!-- Image Grid with In-Feed Ads -->
     <div class="image-grid">
-      <div 
-        v-for="i in totalImages" 
-        :key="i" 
-        class="image-card"
-        @click="openViewer(i - 1)"
-      >
-        <img
-          :src="`https://picsum.photos/seed/${i + 50}/800/800`"
-          alt="Gallery Image"
-          loading="lazy"
-          class="gallery-thumbnail"
-        />
-        <div class="image-overlay">
-          <div class="overlay-info">
-            <span class="img-title">Curated Shot #{{ i }}</span>
-            <span class="img-author">by HVX Pro</span>
+      <template v-for="i in totalImages" :key="i">
+        <div 
+          class="image-card"
+          @click="openViewer(i - 1)"
+        >
+          <img
+            :src="`https://picsum.photos/seed/${i + 50}/800/800`"
+            alt="Gallery Image"
+            loading="lazy"
+            class="gallery-thumbnail"
+          />
+          <div class="image-overlay">
+            <div class="overlay-info">
+              <span class="img-title">Curated Shot #{{ i }}</span>
+              <span class="img-author">by HVX Pro</span>
+            </div>
+            <button class="icon-btn" @click.stop="downloadImage(`https://picsum.photos/seed/${i + 50}/1200/1200`)">
+              <svg
+                viewBox="0 0 24 24"
+                width="18"
+                height="18"
+                stroke="currentColor"
+                stroke-width="2.5"
+                fill="none"
+              >
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+            </button>
           </div>
-          <button class="icon-btn" @click.stop="downloadImage(`https://picsum.photos/seed/${i + 50}/1200/1200`)">
-            <svg
-              viewBox="0 0 24 24"
-              width="18"
-              height="18"
-              stroke="currentColor"
-              stroke-width="2.5"
-              fill="none"
-            >
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-              <polyline points="15 3 21 3 21 9"></polyline>
-              <line x1="10" y1="14" x2="21" y2="3"></line>
-            </svg>
-          </button>
         </div>
-      </div>
+
+        <!-- In-grid Image Ad 1 after 4th image -->
+        <div v-if="i === 4" class="image-grid-ad">
+          <PromotionalBanner layout="grid-item" :campaign="2" />
+        </div>
+
+        <!-- In-grid Image Ad 2 after 10th image -->
+        <div v-if="i === 10" class="image-grid-ad">
+          <PromotionalBanner layout="grid-item" :campaign="3" />
+        </div>
+      </template>
     </div>
 
     <!-- Interactive Lightbox Viewer -->
@@ -440,6 +450,18 @@ onBeforeUnmount(() => {
 @media (max-width: 768px) {
   .lightbox-nav {
     display: none !important; /* Hide arrows on mobile; can swipe or tap overlay to close */
+  }
+}
+
+.image-grid-ad {
+  grid-column: span 1;
+  display: flex;
+  align-items: stretch;
+}
+
+@media (min-width: 480px) {
+  .image-grid-ad {
+    grid-column: span 2;
   }
 }
 </style>

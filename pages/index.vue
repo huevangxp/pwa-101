@@ -1,3 +1,19 @@
+<script setup>
+const pwaEvent = useState('pwaEvent')
+
+const triggerInstall = async () => {
+  if (pwaEvent.value) {
+    pwaEvent.value.prompt()
+    const { outcome } = await pwaEvent.value.userChoice
+    if (outcome === 'accepted') {
+      pwaEvent.value = null
+    }
+  } else {
+    alert("To install HVX Pro, tap the Share button in your browser and select 'Add to Home Screen'.")
+  }
+}
+</script>
+
 <template>
   <div class="video-feed">
     <!-- Categories Filter (Like YouTube's top pills) -->
@@ -16,11 +32,16 @@
 
     <!-- Advertisement & Website Promotion Space -->
     <div class="ad-space-container">
-      <img
-        :src="`https://ui-avatars.com/api/?name=Ch+${i}&background=random&color=fff&size=48`"
-        alt="Channel avatar"
-        class="avatar"
-      />
+      <div class="ad-banner-image">
+        <span class="ad-label">Promoted</span>
+        <a href="#install" class="ad-link" @click.prevent="triggerInstall">
+          <img
+            src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=250&q=80"
+            alt="Promote HVX Pro"
+            class="ad-img"
+          />
+        </a>
+      </div>
     </div>
 
     <!-- Video Grid with In-Feed Ads -->

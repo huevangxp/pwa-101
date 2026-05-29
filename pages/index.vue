@@ -18,7 +18,13 @@
     <div class="video-grid">
       <div v-for="i in 12" :key="i" class="video-card">
         <div class="thumbnail-container">
-          <img :src="`https://picsum.photos/seed/${i + 10}/640/360`" alt="Video thumbnail" class="thumbnail" />
+          <iframe 
+            src="https://player.mediadelivery.net/embed/256380/d9d9ab1f-fc9f-4488-9c26-4ffc653c0024?autoplay=false&loop=false&muted=false" 
+            loading="lazy" 
+            style="border:0; position:absolute; top:0; left:0; height:100%; width:100%;" 
+            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" 
+            allowfullscreen="true">
+          </iframe>
           <span class="duration">10:{{ i + 15 }}</span>
         </div>
         <div class="video-info">

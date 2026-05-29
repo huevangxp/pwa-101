@@ -7,19 +7,19 @@ export default defineNuxtConfig({
   pwa: {
     registerType: "autoUpdate",
     manifest: {
-      name: "HVX Pro",
-      short_name: "HVXPro",
-      description: "A professional website.",
+      name: "My Awesome Nuxt PWA",
+      short_name: "Nuxt PWA",
+      description: "A simple Nuxt 3 PWA example.",
       theme_color: "#ffffff",
-      start_url: "/",
+      start_url: "/", // ✨ CHANGED: Must be a valid route
       icons: [
         {
-          src: "/pwa-192x192.png",
+          src: "/pwa-192x192.png", // ✨ CHANGED: Added leading slash
           sizes: "192x192",
           type: "image/png",
         },
         {
-          src: "/pwa-512x512.png",
+          src: "/pwa-512x512.png", // ✨ CHANGED: Added leading slash
           sizes: "512x512",
           type: "image/png",
           purpose: "any maskable",
@@ -27,7 +27,15 @@ export default defineNuxtConfig({
       ],
     },
     workbox: {
-      globPatterns: ["**/*.{js,css,html,png,svg,ico,webp}"],
+      globPatterns: ["**/*.{js,css,html,png,svg,ico}"],
+    },
+    client: {
+      installPrompt: true,
+    },
+    devOptions: {
+      enabled: true,
+      suppressWarnings: true,
+      type: "module",
     },
   },
 });

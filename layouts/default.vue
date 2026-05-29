@@ -1,3 +1,19 @@
+<script setup>
+import { onMounted } from 'vue'
+
+const pwaEvent = useState('pwaEvent', () => null)
+
+onMounted(() => {
+  window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent default prompt from triggering automatically
+    e.preventDefault()
+    // Stash the event so other components can trigger it
+    pwaEvent.value = e
+    console.log('HVX Pro PWA: beforeinstallprompt stashed')
+  })
+})
+</script>
+
 <template>
   <div class="layout-container">
     <!-- Modern Header -->

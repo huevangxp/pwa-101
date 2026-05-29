@@ -14,14 +14,9 @@
       </div>
     </div>
 
-    <!-- Advertisement Space -->
+    <!-- Advertisement & Website Promotion Space -->
     <div class="ad-space-container">
-      <div class="ad-banner-image">
-        <p class="ad-label">Sponsored</p>
-        <a href="#" class="ad-link">
-          <img src="https://picsum.photos/seed/ads2/1200/200" alt="Advertisement" class="ad-img" />
-        </a>
-      </div>
+      <PromotionalBanner layout="horizontal" />
     </div>
 
     <!-- Video Grid -->

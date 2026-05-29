@@ -4,6 +4,6 @@
       <NuxtPage />
     </NuxtLayout>
     <VitePwaManifest />
-    <PwaInstallBanner />
+    <!-- <PwaInstallBanner /> -->
   </div>
 </template>

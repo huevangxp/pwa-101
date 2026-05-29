@@ -118,7 +118,7 @@ const setSlide = (idx) => {
           </div>
           <div class="video-info">
             <img
-              :src="`https://ui-avatars.com/api/?name=Ch+${i}&background=random&color=fff&size=48`"
+              :src="`https://i.pravatar.cc/100?img=${i + 10}`"
               alt="Channel avatar"
               class="avatar"
             />

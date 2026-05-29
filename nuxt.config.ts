@@ -4,6 +4,12 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@vite-pwa/nuxt"],
 
+  vite: {
+    server: {
+      allowedHosts: true // Allow ngrok and other tunnel hosts
+    }
+  },
+
   pwa: {
     registerType: "autoUpdate",
     manifest: {

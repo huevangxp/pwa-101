@@ -1,3 +1,3 @@
 <template>
-  <!-- Stub: no install banner needed -->
+  <div></div>
 </template>

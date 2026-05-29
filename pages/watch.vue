@@ -317,4 +317,129 @@ onMounted(() => {
     padding: 0;
   }
 }
+
+/* Sponsored Related Card */
+.sponsored-related-card {
+  background-color: rgba(99, 102, 241, 0.05);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+
+.sponsored-badge-small {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  background: var(--accent-gradient);
+  color: white;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* Popup Ad Overlay */
+.popup-ad-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.popup-ad-content {
+  background: var(--bg-primary);
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.popup-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.popup-close:hover {
+  background: rgba(255,255,255,0.1);
+  color: var(--text-primary);
+}
+
+.popup-sponsored {
+  margin: 0;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #a855f7;
+  font-weight: 700;
+}
+
+.popup-title {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+}
+
+.popup-img {
+  width: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+  max-height: 200px;
+}
+
+.popup-desc {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.popup-btn {
+  background: var(--accent-gradient);
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: opacity 0.2s;
+  margin-top: 0.5rem;
+}
+
+.popup-btn:hover {
+  opacity: 0.9;
+}
 </style>

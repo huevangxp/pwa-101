@@ -15,7 +15,13 @@
     </div>
 
     <!-- Advertisement & Website Promotion Space -->
-    <div class="ad-space-container"></div>
+    <div class="ad-space-container">
+      <img
+        :src="`https://ui-avatars.com/api/?name=Ch+${i}&background=random&color=fff&size=48`"
+        alt="Channel avatar"
+        class="avatar"
+      />
+    </div>
 
     <!-- Video Grid with In-Feed Ads -->
     <div class="video-grid">

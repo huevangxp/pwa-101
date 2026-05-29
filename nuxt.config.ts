@@ -7,8 +7,8 @@ export default defineNuxtConfig({
   pwa: {
     registerType: "autoUpdate",
     manifest: {
-      name: "HVXP",
-      short_name: "Nuxt PWA",
+      name: "HVX Pro",
+      short_name: "HVXPWA",
       description: "A simple Nuxt 3 PWA example.",
       theme_color: "#ffffff",
       start_url: "/", // ✨ CHANGED: Must be a valid route

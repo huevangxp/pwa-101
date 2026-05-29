@@ -79,17 +79,24 @@ const triggerInstall = async () => {
         </a>
 
         <!-- Normal Related Videos -->
-        <NuxtLink :to="`/watch?v=${i}`" v-for="i in 8" :key="i" class="related-card" style="text-decoration: none;">
-          <div class="related-thumbnail">
-            <img :src="`https://picsum.photos/seed/${i + 20}/320/180`" alt="Thumbnail" />
-            <span class="duration">12:{{ i + 30 }}</span>
+        <template v-for="i in 8" :key="i">
+          <NuxtLink :to="`/watch?v=${i}`" class="related-card" style="text-decoration: none;">
+            <div class="related-thumbnail">
+              <img :src="`https://picsum.photos/seed/${i + 20}/320/180`" alt="Thumbnail" />
+              <span class="duration">12:{{ i + 30 }}</span>
+            </div>
+            <div class="related-info">
+              <h4 class="related-video-title">Next JS vs Nuxt JS - Which one should you choose?</h4>
+              <p class="related-channel">Huevangxp Channel</p>
+              <p class="related-meta">{{ i * 22 }}K views &bull; {{ i + 2 }} days ago</p>
+            </div>
+          </NuxtLink>
+
+          <!-- Injected Sidebar Image Ad after the 4th video -->
+          <div v-if="i === 4" class="sidebar-ad-wrapper" style="margin: 0.5rem 0; width: 100%;">
+            <PromotionalBanner layout="card" :campaign="3" />
           </div>
-          <div class="related-info">
-            <h4 class="related-video-title">Next JS vs Nuxt JS - Which one should you choose?</h4>
-            <p class="related-channel">Huevangxp Channel</p>
-            <p class="related-meta">{{ i * 22 }}K views &bull; {{ i + 2 }} days ago</p>
-          </div>
-        </NuxtLink>
+        </template>
       </div>
     </div>
 

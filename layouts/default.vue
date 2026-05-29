@@ -38,7 +38,7 @@ onMounted(() => {
             <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
           </button>
           <button class="btn-icon profile-icon mobile-only">
-            <img src="https://ui-avatars.com/api/?name=User&background=6366f1&color=fff&size=32" alt="Profile" />
+            <img src="https://i.pravatar.cc/100?img=68" alt="Profile" />
           </button>
         </div>
       </div>

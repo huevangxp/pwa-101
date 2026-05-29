@@ -23,30 +23,15 @@
               <h3 class="channel-name">Huevangxp Channel</h3>
               <p class="subscriber-count">1.2M subscribers</p>
             </div>
-            <button class="btn-subscribe">Subscribe</button>
-          </div>
-
-          <div class="video-actions">
-            <div class="action-group">
-              <button class="action-btn">
-                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
-                12K
-              </button>
-              <div class="divider"></div>
-              <button class="action-btn">
-                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>
-              </button>
-            </div>
-            <button class="action-btn rounded">
-              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
-              Share
-            </button>
           </div>
         </div>
 
-        <div class="video-description">
-          <p class="views-date">124,532 views &bull; Premiered Oct 24, 2025</p>
-          <p>Learn how to build a fully functional Progressive Web App using Nuxt 3. In this tutorial we cover everything from service workers to web manifests and UI cloning!</p>
+        <!-- Advertisement Space -->
+        <div class="ad-banner">
+          <p class="ad-label">Sponsored</p>
+          <h2>Visit Our Website Today!</h2>
+          <p>Discover amazing products and services tailormade for you.</p>
+          <a href="#" class="ad-btn">Learn More</a>
         </div>
       </div>
     </div>
@@ -139,65 +124,58 @@
   color: var(--text-secondary);
 }
 
-.btn-subscribe {
-  background: var(--text-primary);
-  color: var(--bg-primary);
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 50px;
-  font-weight: 600;
-  font-size: 0.875rem;
-  cursor: pointer;
-}
-
-.video-actions {
-  display: flex;
-  gap: 0.5rem;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-.video-actions::-webkit-scrollbar { display: none; }
-
-.action-group {
-  display: flex;
-  background: rgba(255,255,255,0.1);
-  border-radius: 50px;
-  overflow: hidden;
-}
-
-.action-btn {
-  background: rgba(255,255,255,0.1);
-  border: none;
-  color: var(--text-primary);
-  padding: 0.5rem 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  white-space: nowrap;
-}
-.action-group .action-btn { background: transparent; }
-.action-btn.rounded { border-radius: 50px; }
-
-.divider {
-  width: 1px;
-  background: rgba(255,255,255,0.2);
-  margin: 0.5rem 0;
-}
-
-.video-description {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 0.75rem;
+/* Advertisement Banner */
+.ad-banner {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+  border: 1px solid rgba(99, 102, 241, 0.3);
   border-radius: 12px;
-  font-size: 0.875rem;
-  line-height: 1.5;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+  margin-top: 0.5rem;
 }
 
-.views-date {
+.ad-label {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin: 0;
+}
+
+.ad-banner h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--text-primary);
+}
+
+.ad-banner p {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.ad-btn {
+  align-self: flex-start;
+  background: var(--accent-gradient);
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
   font-weight: 600;
-  margin: 0 0 0.25rem 0;
+  font-size: 0.875rem;
+  transition: opacity 0.2s;
+}
+
+.ad-btn:hover {
+  opacity: 0.9;
 }
 
 /* Related Videos */

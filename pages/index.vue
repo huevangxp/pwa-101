@@ -440,6 +440,12 @@ const setSlide = (idx) => {
   height: 100%;
 }
 
+.slider-wrapper .ad-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .slide {
   position: absolute;
   top: 0;
@@ -454,6 +460,12 @@ const setSlide = (idx) => {
 .slide.active {
   opacity: 1;
   pointer-events: auto;
+}
+
+.slide .ad-img {
+  width: 100%;
+  height: 100% !important;
+  object-fit: cover;
 }
 
 .slider-arrow {

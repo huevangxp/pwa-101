@@ -1,5 +1,5 @@
 <template>
   <div>
-    <h1>Huevangxp success</h1>
+    <h1>Huevangxp mobile</h1>
   </div>
 </template>

@@ -3,6 +3,6 @@
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
-    <VitePwaManifest />
+    <!-- <VitePwaManifest /> -->
   </div>
 </template>

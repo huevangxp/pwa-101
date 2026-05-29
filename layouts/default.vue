@@ -5,15 +5,26 @@
       <div class="header-content">
         <div class="brand">
           <span class="brand-logo">⚡</span>
-          <span class="brand-name">Nuxt PWA Hub</span>
+          <span class="brand-name">Nuxt PWA</span>
         </div>
-        <nav class="nav-menu">
+        
+        <!-- Desktop Navigation -->
+        <nav class="nav-menu desktop-only">
           <NuxtLink to="/" class="nav-item">Home</NuxtLink>
           <a href="#" class="nav-item">Features</a>
           <a href="#" class="nav-item">About</a>
         </nav>
+
         <div class="header-actions">
-          <button class="btn btn-primary">Get Started</button>
+          <button class="btn btn-primary desktop-only">Get Started</button>
+          
+          <!-- Mobile Header Icons (Search & Profile like YouTube) -->
+          <button class="btn-icon mobile-only">
+            <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          </button>
+          <button class="btn-icon profile-icon mobile-only">
+            <img src="https://ui-avatars.com/api/?name=User&background=6366f1&color=fff&size=32" alt="Profile" />
+          </button>
         </div>
       </div>
     </header>
@@ -23,12 +34,32 @@
       <slot />
     </main>
 
-    <!-- Footer -->
-    <footer class="app-footer">
+    <!-- Footer (Desktop only) -->
+    <footer class="app-footer desktop-only">
       <div class="footer-content">
         <p>&copy; 2026 Nuxt PWA Hub. All rights reserved.</p>
       </div>
     </footer>
+
+    <!-- Mobile Bottom Navigation (YouTube style) -->
+    <nav class="bottom-nav mobile-only">
+      <NuxtLink to="/" class="bottom-nav-item">
+        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        <span>Home</span>
+      </NuxtLink>
+      <a href="#" class="bottom-nav-item">
+        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+        <span>Features</span>
+      </a>
+      <a href="#" class="bottom-nav-item">
+        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v-6M6 20V10M18 20V4"></path></svg>
+        <span>Stats</span>
+      </a>
+      <a href="#" class="bottom-nav-item">
+        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        <span>You</span>
+      </a>
+    </nav>
   </div>
 </template>
 
@@ -38,7 +69,7 @@
 :root {
   --bg-primary: #0a0f1d;
   --bg-secondary: rgba(255, 255, 255, 0.03);
-  --bg-header: rgba(10, 15, 29, 0.7);
+  --bg-header: rgba(10, 15, 29, 0.95);
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
   --accent-color: #6366f1;
@@ -68,7 +99,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  height: 70px;
+  height: 60px;
   background-color: var(--bg-header);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -80,7 +111,7 @@ body {
   max-width: 1200px;
   height: 100%;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -89,11 +120,11 @@ body {
 .brand {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
 }
 
 .brand-logo {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   background: var(--accent-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -126,6 +157,12 @@ body {
   color: var(--text-primary);
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 .btn {
   padding: 0.6rem 1.2rem;
   border-radius: 50px;
@@ -147,10 +184,27 @@ body {
   box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
 }
 
+.btn-icon {
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  cursor: pointer;
+}
+
+.profile-icon img {
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+}
+
 .main-content {
   flex: 1;
-  margin-top: 70px;
-  padding: 2rem;
+  margin-top: 60px;
+  padding: 2rem 1.5rem;
   max-width: 1200px;
   width: 100%;
   box-sizing: border-box;
@@ -173,5 +227,66 @@ body {
   justify-content: center;
   color: var(--text-secondary);
   font-size: 0.875rem;
+}
+
+.mobile-only {
+  display: none !important;
+}
+
+/* Mobile & Tablet Styles (YouTube-like layout) */
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none !important;
+  }
+  
+  .mobile-only {
+    display: flex !important;
+  }
+
+  .main-content {
+    padding: 1rem 1rem 5rem 1rem; /* Extra padding at bottom for nav bar */
+  }
+
+  .header-content {
+    padding: 0 1rem;
+  }
+
+  /* Bottom Navigation Bar */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 65px;
+    background-color: var(--bg-header);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 100;
+    padding-bottom: env(safe-area-inset-bottom); /* iOS safe area */
+  }
+
+  .bottom-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    text-decoration: none;
+    gap: 4px;
+    flex: 1;
+  }
+
+  .bottom-nav-item span {
+    font-size: 0.65rem;
+    font-weight: 500;
+  }
+
+  .bottom-nav-item:hover, .bottom-nav-item.router-link-active {
+    color: var(--text-primary);
+  }
 }
 </style>

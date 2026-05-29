@@ -101,6 +101,64 @@
   color: var(--bg-primary);
 }
 
+/* Advertisement Space */
+.ad-space-container {
+  padding: 0 1rem;
+  margin-bottom: 1rem;
+}
+
+.ad-banner {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.ad-label {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin: 0;
+}
+
+.ad-banner h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--text-primary);
+}
+
+.ad-banner p {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.ad-btn {
+  align-self: flex-start;
+  background: var(--accent-gradient);
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: opacity 0.2s;
+}
+
+.ad-btn:hover {
+  opacity: 0.9;
+}
+
 /* Video Grid */
 .video-grid {
   display: grid;

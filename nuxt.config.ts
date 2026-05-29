@@ -7,7 +7,7 @@ export default defineNuxtConfig({
   pwa: {
     registerType: "autoUpdate",
     manifest: {
-      name: "My Awesome Nuxt PWA",
+      name: "HVXP",
       short_name: "Nuxt PWA",
       description: "A simple Nuxt 3 PWA example.",
       theme_color: "#ffffff",

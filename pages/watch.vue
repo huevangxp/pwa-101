@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 
 const showPopupAd = ref(false)
+const pwaEvent = useState('pwaEvent')
 
 onMounted(() => {
   // Show popup ad after 3 seconds of watching
@@ -9,6 +10,19 @@ onMounted(() => {
     showPopupAd.value = true
   }, 3000)
 })
+
+const triggerInstall = async () => {
+  if (pwaEvent.value) {
+    pwaEvent.value.prompt()
+    const { outcome } = await pwaEvent.value.userChoice
+    if (outcome === 'accepted') {
+      pwaEvent.value = null
+    }
+  } else {
+    alert("To install HVX Pro, tap the Share button in your browser and select 'Add to Home Screen'.")
+  }
+  showPopupAd.value = false
+}
 </script>
 
 <template>
@@ -39,12 +53,9 @@ onMounted(() => {
           </div>
         </div>
 
-        <!-- Advertisement Space -->
-        <div class="ad-banner-image">
-          <p class="ad-label">Sponsored</p>
-          <a href="#" class="ad-link">
-            <img src="https://picsum.photos/seed/ads1/800/150" alt="Advertisement" class="ad-img" />
-          </a>
+        <!-- Advertisement Space Promoting Our Website -->
+        <div class="ad-space-container" style="margin-top: 1rem; width: 100%;">
+          <PromotionalBanner layout="compact" />
         </div>
       </div>
     </div>
@@ -82,17 +93,17 @@ onMounted(() => {
       </div>
     </div>
 
-    <!-- Popup Ad Overlay -->
+    <!-- Popup Ad Overlay Promoting Our Website -->
     <div v-if="showPopupAd" class="popup-ad-overlay" @click.self="showPopupAd = false">
       <div class="popup-ad-content">
-        <button class="popup-close" @click="showPopupAd = false">
+        <button class="popup-close" @click="showPopupAd = false" aria-label="Close dialog">
           <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
-        <p class="popup-sponsored">Sponsored</p>
-        <h2 class="popup-title">Special Limited Time Offer!</h2>
-        <img src="https://picsum.photos/seed/popupad/600/300" alt="Popup Ad" class="popup-img" />
-        <p class="popup-desc">Get 50% off on all items today only. Don't miss out on this amazing deal!</p>
-        <a href="#" class="popup-btn">Claim Offer</a>
+        <p class="popup-sponsored">Promoted</p>
+        <h2 class="popup-title">Enjoy HVX Pro Anywhere!</h2>
+        <img src="https://picsum.photos/seed/hvxprowatch/600/300" alt="HVX Pro App Mockup" class="popup-img" />
+        <p class="popup-desc">Add HVX Pro to your home screen for instant access, offline playback support, and a modern app-like experience.</p>
+        <button class="popup-btn" @click="triggerInstall" style="border: none; cursor: pointer;">Install HVX Pro</button>
       </div>
     </div>
   </div>

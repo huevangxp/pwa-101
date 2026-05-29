@@ -1,28 +1,30 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted } from "vue";
 
-const showPopupAd = ref(false)
-const pwaEvent = useState('pwaEvent')
+const showPopupAd = ref(false);
+const pwaEvent = useState("pwaEvent");
 
 onMounted(() => {
   // Show popup ad after 3 seconds of watching
   setTimeout(() => {
-    showPopupAd.value = true
-  }, 3000)
-})
+    showPopupAd.value = true;
+  }, 3000);
+});
 
 const triggerInstall = async () => {
   if (pwaEvent.value) {
-    pwaEvent.value.prompt()
-    const { outcome } = await pwaEvent.value.userChoice
-    if (outcome === 'accepted') {
-      pwaEvent.value = null
+    pwaEvent.value.prompt();
+    const { outcome } = await pwaEvent.value.userChoice;
+    if (outcome === "accepted") {
+      pwaEvent.value = null;
     }
   } else {
-    alert("To install HVX Pro, tap the Share button in your browser and select 'Add to Home Screen'.")
+    alert(
+      "To install HVX Pro, tap the Share button in your browser and select 'Add to Home Screen'.",
+    );
   }
-  showPopupAd.value = false
-}
+  showPopupAd.value = false;
+};
 </script>
 
 <template>
@@ -30,22 +32,43 @@ const triggerInstall = async () => {
     <div class="main-content">
       <!-- Video Player -->
       <div class="video-player-container">
-        <iframe 
-          src="https://player.mediadelivery.net/embed/256380/d9d9ab1f-fc9f-4488-9c26-4ffc653c0024?autoplay=true&loop=false&muted=false" 
-          loading="lazy" 
-          style="border:0; position:absolute; top:0; left:0; height:100%; width:100%;" 
-          allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" 
-          allowfullscreen="true">
+        <iframe
+          src="https://player.mediadelivery.net/embed/256380/d9d9ab1f-fc9f-4488-9c26-4ffc653c0024?autoplay=true&loop=false&muted=false"
+          loading="lazy"
+          style="
+            border: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+          "
+          allow="
+            accelerometer;
+            gyroscope;
+            autoplay;
+            encrypted-media;
+            picture-in-picture;
+          "
+          allowfullscreen="true"
+        >
         </iframe>
       </div>
 
       <!-- Video Details -->
       <div class="video-details">
-        <h1 class="video-title">Building an amazing Nuxt 3 PWA App like YouTube from scratch - Part {{ $route.query.v || 1 }}</h1>
-        
+        <h1 class="video-title">
+          Building an amazing Nuxt 3 PWA App like YouTube from scratch - Part
+          {{ $route.query.v || 1 }}
+        </h1>
+
         <div class="video-primary-info">
           <div class="channel-info">
-            <img :src="`https://i.pravatar.cc/100?img=${parseInt($route.query.v || 1) + 10}`" alt="Channel" class="channel-avatar" />
+            <img
+              :src="`https://i.pravatar.cc/100?img=${parseInt($route.query.v || 1) + 10}`"
+              alt="Channel"
+              class="channel-avatar"
+            />
             <div class="channel-text">
               <h3 class="channel-name">Huevangxp Channel</h3>
               <p class="subscriber-count">1.2M subscribers</p>
@@ -54,9 +77,10 @@ const triggerInstall = async () => {
         </div>
 
         <!-- Advertisement Space Promoting Our Website -->
-        <div class="ad-space-container" style="margin-top: 1rem; width: 100%;">
-          <PromotionalBanner layout="compact" />
-        </div>
+        <div
+          class="ad-space-container"
+          style="margin-top: 1rem; width: 100%"
+        ></div>
       </div>
     </div>
 
@@ -65,14 +89,23 @@ const triggerInstall = async () => {
       <h3 class="related-title">Up next</h3>
       <div class="related-list">
         <!-- Sponsored Video Card in Up Next -->
-        <a href="#" class="related-card sponsored-related-card" style="text-decoration: none;">
+        <a
+          href="#"
+          class="related-card sponsored-related-card"
+          style="text-decoration: none"
+        >
           <div class="related-thumbnail">
-            <img src="https://picsum.photos/seed/sponsor1/320/180" alt="Sponsored Thumbnail" />
+            <img
+              src="https://picsum.photos/seed/sponsor1/320/180"
+              alt="Sponsored Thumbnail"
+            />
             <span class="sponsored-badge-small">Sponsored</span>
             <span class="duration">0:30</span>
           </div>
           <div class="related-info">
-            <h4 class="related-video-title">The Ultimate Setup for Developers - Shop Now</h4>
+            <h4 class="related-video-title">
+              The Ultimate Setup for Developers - Shop Now
+            </h4>
             <p class="related-channel">DevGear Official</p>
             <p class="related-meta">Ad &bull; Shop now</p>
           </div>
@@ -80,20 +113,35 @@ const triggerInstall = async () => {
 
         <!-- Normal Related Videos -->
         <template v-for="i in 8" :key="i">
-          <NuxtLink :to="`/watch?v=${i}`" class="related-card" style="text-decoration: none;">
+          <NuxtLink
+            :to="`/watch?v=${i}`"
+            class="related-card"
+            style="text-decoration: none"
+          >
             <div class="related-thumbnail">
-              <img :src="`https://picsum.photos/seed/${i + 20}/320/180`" alt="Thumbnail" />
+              <img
+                :src="`https://picsum.photos/seed/${i + 20}/320/180`"
+                alt="Thumbnail"
+              />
               <span class="duration">12:{{ i + 30 }}</span>
             </div>
             <div class="related-info">
-              <h4 class="related-video-title">Next JS vs Nuxt JS - Which one should you choose?</h4>
+              <h4 class="related-video-title">
+                Next JS vs Nuxt JS - Which one should you choose?
+              </h4>
               <p class="related-channel">Huevangxp Channel</p>
-              <p class="related-meta">{{ i * 22 }}K views &bull; {{ i + 2 }} days ago</p>
+              <p class="related-meta">
+                {{ i * 22 }}K views &bull; {{ i + 2 }} days ago
+              </p>
             </div>
           </NuxtLink>
 
           <!-- Injected Sidebar Image Ad after the 4th video -->
-          <div v-if="i === 4" class="sidebar-ad-wrapper" style="margin: 0.5rem 0; width: 100%;">
+          <div
+            v-if="i === 4"
+            class="sidebar-ad-wrapper"
+            style="margin: 0.5rem 0; width: 100%"
+          >
             <PromotionalBanner layout="card" :campaign="3" />
           </div>
         </template>
@@ -101,16 +149,47 @@ const triggerInstall = async () => {
     </div>
 
     <!-- Popup Ad Overlay Promoting Our Website -->
-    <div v-if="showPopupAd" class="popup-ad-overlay" @click.self="showPopupAd = false">
+    <div
+      v-if="showPopupAd"
+      class="popup-ad-overlay"
+      @click.self="showPopupAd = false"
+    >
       <div class="popup-ad-content">
-        <button class="popup-close" @click="showPopupAd = false" aria-label="Close dialog">
-          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        <button
+          class="popup-close"
+          @click="showPopupAd = false"
+          aria-label="Close dialog"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            stroke="currentColor"
+            stroke-width="2"
+            fill="none"
+          >
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
         </button>
         <p class="popup-sponsored">Promoted</p>
         <h2 class="popup-title">Enjoy HVX Pro Anywhere!</h2>
-        <img src="https://picsum.photos/seed/hvxprowatch/600/300" alt="HVX Pro App Mockup" class="popup-img" />
-        <p class="popup-desc">Add HVX Pro to your home screen for instant access, offline playback support, and a modern app-like experience.</p>
-        <button class="popup-btn" @click="triggerInstall" style="border: none; cursor: pointer;">Install HVX Pro</button>
+        <img
+          src="https://picsum.photos/seed/hvxprowatch/600/300"
+          alt="HVX Pro App Mockup"
+          class="popup-img"
+        />
+        <p class="popup-desc">
+          Add HVX Pro to your home screen for instant access, offline playback
+          support, and a modern app-like experience.
+        </p>
+        <button
+          class="popup-btn"
+          @click="triggerInstall"
+          style="border: none; cursor: pointer"
+        >
+          Install HVX Pro
+        </button>
       </div>
     </div>
   </div>
@@ -122,7 +201,7 @@ const triggerInstall = async () => {
   flex-direction: column;
   gap: 1.5rem;
   /* Reset margins for edge-to-edge mobile player */
-  margin: -2rem -1.5rem; 
+  margin: -2rem -1.5rem;
   padding-bottom: 2rem;
 }
 
@@ -270,7 +349,7 @@ const triggerInstall = async () => {
   position: absolute;
   bottom: 4px;
   right: 4px;
-  background: rgba(0,0,0,0.8);
+  background: rgba(0, 0, 0, 0.8);
   color: white;
   padding: 2px 4px;
   border-radius: 4px;
@@ -296,7 +375,8 @@ const triggerInstall = async () => {
   overflow: hidden;
 }
 
-.related-channel, .related-meta {
+.related-channel,
+.related-meta {
   margin: 0;
   font-size: 0.8rem;
   color: var(--text-secondary);
@@ -309,17 +389,17 @@ const triggerInstall = async () => {
     margin: 0;
     padding: 1rem 0;
   }
-  
+
   .main-content {
     flex: 1;
     min-width: 0;
   }
-  
+
   .video-player-container {
     border-radius: 12px;
     overflow: hidden;
   }
-  
+
   .video-details {
     padding: 1rem 0;
   }
@@ -329,7 +409,7 @@ const triggerInstall = async () => {
     justify-content: space-between;
     align-items: center;
   }
-  
+
   .related-videos {
     width: 400px;
     padding: 0;
@@ -375,8 +455,12 @@ const triggerInstall = async () => {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .popup-ad-content {
@@ -395,8 +479,14 @@ const triggerInstall = async () => {
 }
 
 @keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .popup-close {
@@ -413,7 +503,7 @@ const triggerInstall = async () => {
 }
 
 .popup-close:hover {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
   color: var(--text-primary);
 }
 

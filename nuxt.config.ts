@@ -29,13 +29,5 @@ export default defineNuxtConfig({
     workbox: {
       globPatterns: ["**/*.{js,css,html,png,svg,ico}"],
     },
-    // client: {
-    //   installPrompt: true,
-    // },
-    // devOptions: {
-    //   enabled: true,
-    //   suppressWarnings: true,
-    //   type: "module",
-    // },
   },
 });

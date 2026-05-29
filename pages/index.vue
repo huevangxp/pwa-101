@@ -1,5 +1,26 @@
 <script setup>
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+
 const pwaEvent = useState('pwaEvent')
+
+const promoImages = [
+  'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=300&q=80',
+  'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&h=300&q=80',
+  'https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=1200&h=300&q=80'
+]
+
+const currentSlide = ref(0)
+let slideInterval = null
+
+onMounted(() => {
+  slideInterval = setInterval(() => {
+    currentSlide.value = (currentSlide.value + 1) % promoImages.length
+  }, 4000)
+})
+
+onBeforeUnmount(() => {
+  if (slideInterval) clearInterval(slideInterval)
+})
 
 const triggerInstall = async () => {
   if (pwaEvent.value) {
@@ -11,6 +32,18 @@ const triggerInstall = async () => {
   } else {
     alert("To install HVX Pro, tap the Share button in your browser and select 'Add to Home Screen'.")
   }
+}
+
+const prevSlide = () => {
+  currentSlide.value = (currentSlide.value - 1 + promoImages.length) % promoImages.length
+}
+
+const nextSlide = () => {
+  currentSlide.value = (currentSlide.value + 1) % promoImages.length
+}
+
+const setSlide = (idx) => {
+  currentSlide.value = idx
 }
 </script>
 
@@ -30,17 +63,40 @@ const triggerInstall = async () => {
       </div>
     </div>
 
-    <!-- Advertisement & Website Promotion Space -->
+    <!-- Advertisement & Website Promotion Space with Image Slider -->
     <div class="ad-space-container">
-      <div class="ad-banner-image">
+      <div class="ad-banner-image slider-container">
         <span class="ad-label">Promoted</span>
-        <a href="#install" class="ad-link" @click.prevent="triggerInstall">
-          <img
-            src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=250&q=80"
-            alt="Promote HVX Pro"
-            class="ad-img"
-          />
-        </a>
+        
+        <div class="slider-wrapper">
+          <a href="#install" class="ad-link" @click.prevent="triggerInstall">
+            <div 
+              v-for="(img, idx) in promoImages" 
+              :key="idx" 
+              :class="['slide', { active: currentSlide === idx }]"
+            >
+              <img :src="img" alt="Promote HVX Pro" class="ad-img" />
+            </div>
+          </a>
+        </div>
+
+        <!-- Navigation Arrows -->
+        <button class="slider-arrow arrow-prev" @click="prevSlide" aria-label="Previous slide">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button class="slider-arrow arrow-next" @click="nextSlide" aria-label="Next slide">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+
+        <!-- Indicators -->
+        <div class="slider-dots">
+          <span 
+            v-for="(img, idx) in promoImages" 
+            :key="idx" 
+            :class="['dot', { active: currentSlide === idx }]"
+            @click="setSlide(idx)"
+          ></span>
+        </div>
       </div>
     </div>
 
@@ -357,5 +413,113 @@ const triggerInstall = async () => {
   .grid-ad-wrapper {
     padding: 0 1rem;
   }
+}
+
+/* Image Slider styles */
+.slider-container {
+  position: relative;
+  height: 120px;
+  overflow: hidden;
+}
+
+@media (min-width: 640px) {
+  .slider-container {
+    height: 160px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .slider-container {
+    height: 200px;
+  }
+}
+
+.slider-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  pointer-events: none;
+}
+
+.slide.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(10, 15, 29, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  opacity: 0;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(4px);
+}
+
+.slider-container:hover .slider-arrow {
+  opacity: 1;
+}
+
+.arrow-prev {
+  left: 1rem;
+}
+
+.arrow-next {
+  right: 1rem;
+}
+
+.slider-arrow:hover {
+  background: var(--accent-gradient);
+  border-color: transparent;
+  transform: translateY(-50%) scale(1.05);
+}
+
+.slider-dots {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dot:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.dot.active {
+  background: #ffffff;
+  transform: scale(1.2);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
 }
 </style>

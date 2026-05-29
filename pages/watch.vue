@@ -78,7 +78,12 @@ const triggerInstall = async () => {
 
         <!-- Advertisement Space Promoting Our Website -->
         <div class="ad-space-container" style="margin-top: 1rem; width: 100%">
-          <img src="https://hvx.vn/images/promotion.png" alt="" />
+          <div class="ad-banner-image">
+            <span class="ad-label">Promoted</span>
+            <a href="#install" class="ad-link" @click.prevent="triggerInstall">
+              <img src="https://hvx.vn/images/promotion.png" alt="HVX Pro Promotion" class="ad-img" />
+            </a>
+          </div>
         </div>
       </div>
     </div>

@@ -77,10 +77,9 @@ const triggerInstall = async () => {
         </div>
 
         <!-- Advertisement Space Promoting Our Website -->
-        <div
-          class="ad-space-container"
-          style="margin-top: 1rem; width: 100%"
-        ></div>
+        <div class="ad-space-container" style="margin-top: 1rem; width: 100%">
+          <img src="https://hvx.vn/images/promotion.png" alt="" />
+        </div>
       </div>
     </div>
 

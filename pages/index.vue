@@ -19,25 +19,37 @@
       <PromotionalBanner layout="horizontal" />
     </div>
 
-    <!-- Video Grid -->
+    <!-- Video Grid with In-Feed Ads -->
     <div class="video-grid">
-      <NuxtLink :to="`/watch?v=${i}`" v-for="i in 12" :key="i" class="video-card" style="text-decoration: none;">
-        <div class="thumbnail-container">
-          <img :src="`https://picsum.photos/seed/${i + 10}/640/360`" alt="Video thumbnail" class="thumbnail" />
-          <span class="duration">10:{{ i + 15 }}</span>
-        </div>
-        <div class="video-info">
-          <img :src="`https://ui-avatars.com/api/?name=Ch+${i}&background=random&color=fff&size=48`" alt="Channel avatar" class="avatar" />
-          <div class="video-text">
-            <h3 class="video-title">Building an amazing Nuxt 3 PWA App like YouTube from scratch - Part {{ i }}</h3>
-            <p class="channel-name">Huevangxp Channel</p>
-            <p class="video-meta">{{ i * 14 }}K views &bull; {{ i }} days ago</p>
+      <template v-for="i in 12" :key="i">
+        <NuxtLink :to="`/watch?v=${i}`" class="video-card" style="text-decoration: none;">
+          <div class="thumbnail-container">
+            <img :src="`https://picsum.photos/seed/${i + 10}/640/360`" alt="Video thumbnail" class="thumbnail" />
+            <span class="duration">10:{{ i + 15 }}</span>
           </div>
-          <button class="more-options" @click.prevent>
-            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
-          </button>
+          <div class="video-info">
+            <img :src="`https://ui-avatars.com/api/?name=Ch+${i}&background=random&color=fff&size=48`" alt="Channel avatar" class="avatar" />
+            <div class="video-text">
+              <h3 class="video-title">Building an amazing Nuxt 3 PWA App like YouTube from scratch - Part {{ i }}</h3>
+              <p class="channel-name">Huevangxp Channel</p>
+              <p class="video-meta">{{ i * 14 }}K views &bull; {{ i }} days ago</p>
+            </div>
+            <button class="more-options" @click.prevent>
+              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+            </button>
+          </div>
+        </NuxtLink>
+
+        <!-- Sponsored Image Ad Card 1 -->
+        <div v-if="i === 3" class="grid-ad-wrapper">
+          <PromotionalBanner layout="grid-item" :campaign="2" />
         </div>
-      </NuxtLink>
+
+        <!-- Sponsored Image Ad Card 2 -->
+        <div v-if="i === 8" class="grid-ad-wrapper">
+          <PromotionalBanner layout="grid-item" :campaign="3" />
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -276,6 +288,18 @@
 
   .more-options {
     opacity: 1; /* Always show dots on mobile */
+  }
+}
+
+.grid-ad-wrapper {
+  grid-column: span 1;
+  display: flex;
+  align-items: stretch;
+}
+
+@media (max-width: 768px) {
+  .grid-ad-wrapper {
+    padding: 0 1rem;
   }
 }
 </style>

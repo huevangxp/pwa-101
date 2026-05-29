@@ -15,27 +15,55 @@
     </div>
 
     <!-- Advertisement & Website Promotion Space -->
-    <div class="ad-space-container">
-      <PromotionalBanner layout="horizontal" />
-    </div>
+    <div class="ad-space-container"></div>
 
     <!-- Video Grid with In-Feed Ads -->
     <div class="video-grid">
       <template v-for="i in 12" :key="i">
-        <NuxtLink :to="`/watch?v=${i}`" class="video-card" style="text-decoration: none;">
+        <NuxtLink
+          :to="`/watch?v=${i}`"
+          class="video-card"
+          style="text-decoration: none"
+        >
           <div class="thumbnail-container">
-            <img :src="`https://picsum.photos/seed/${i + 10}/640/360`" alt="Video thumbnail" class="thumbnail" />
+            <img
+              :src="`https://picsum.photos/seed/${i + 10}/640/360`"
+              alt="Video thumbnail"
+              class="thumbnail"
+            />
             <span class="duration">10:{{ i + 15 }}</span>
           </div>
           <div class="video-info">
-            <img :src="`https://ui-avatars.com/api/?name=Ch+${i}&background=random&color=fff&size=48`" alt="Channel avatar" class="avatar" />
+            <img
+              :src="`https://ui-avatars.com/api/?name=Ch+${i}&background=random&color=fff&size=48`"
+              alt="Channel avatar"
+              class="avatar"
+            />
             <div class="video-text">
-              <h3 class="video-title">Building an amazing Nuxt 3 PWA App like YouTube from scratch - Part {{ i }}</h3>
+              <h3 class="video-title">
+                Building an amazing Nuxt 3 PWA App like YouTube from scratch -
+                Part {{ i }}
+              </h3>
               <p class="channel-name">Huevangxp Channel</p>
-              <p class="video-meta">{{ i * 14 }}K views &bull; {{ i }} days ago</p>
+              <p class="video-meta">
+                {{ i * 14 }}K views &bull; {{ i }} days ago
+              </p>
             </div>
             <button class="more-options" @click.prevent>
-              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+              <svg
+                viewBox="0 0 24 24"
+                width="20"
+                height="20"
+                stroke="currentColor"
+                stroke-width="2"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="1"></circle>
+                <circle cx="12" cy="5" r="1"></circle>
+                <circle cx="12" cy="19" r="1"></circle>
+              </svg>
             </button>
           </div>
         </NuxtLink>
@@ -60,7 +88,7 @@
   flex-direction: column;
   gap: 1.5rem;
   /* Resetting margin to full width on mobile since layout handles padding */
-  margin: -1rem; 
+  margin: -1rem;
   padding-bottom: 2rem;
 }
 
@@ -246,7 +274,8 @@
   text-overflow: ellipsis;
 }
 
-.channel-name, .video-meta {
+.channel-name,
+.video-meta {
   font-size: 0.875rem;
   color: var(--text-secondary);
   margin: 0;

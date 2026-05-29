@@ -14,6 +14,16 @@
       </div>
     </div>
 
+    <!-- Advertisement Space -->
+    <div class="ad-space-container">
+      <div class="ad-banner">
+        <p class="ad-label">Sponsored</p>
+        <h2>Visit Our Website Today!</h2>
+        <p>Discover amazing products and services tailormade for you.</p>
+        <a href="#" class="ad-btn">Learn More</a>
+      </div>
+    </div>
+
     <!-- Video Grid -->
     <div class="video-grid">
       <NuxtLink :to="`/watch?v=${i}`" v-for="i in 12" :key="i" class="video-card" style="text-decoration: none;">

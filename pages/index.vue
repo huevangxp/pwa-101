@@ -16,15 +16,9 @@
 
     <!-- Video Grid -->
     <div class="video-grid">
-      <div v-for="i in 12" :key="i" class="video-card">
+      <NuxtLink :to="`/watch?v=${i}`" v-for="i in 12" :key="i" class="video-card" style="text-decoration: none;">
         <div class="thumbnail-container">
-          <iframe 
-            src="https://player.mediadelivery.net/embed/256380/d9d9ab1f-fc9f-4488-9c26-4ffc653c0024?autoplay=false&loop=false&muted=false" 
-            loading="lazy" 
-            style="border:0; position:absolute; top:0; left:0; height:100%; width:100%;" 
-            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" 
-            allowfullscreen="true">
-          </iframe>
+          <img :src="`https://picsum.photos/seed/${i + 10}/640/360`" alt="Video thumbnail" class="thumbnail" />
           <span class="duration">10:{{ i + 15 }}</span>
         </div>
         <div class="video-info">
@@ -34,11 +28,11 @@
             <p class="channel-name">Huevangxp Channel</p>
             <p class="video-meta">{{ i * 14 }}K views &bull; {{ i }} days ago</p>
           </div>
-          <button class="more-options">
+          <button class="more-options" @click.prevent>
             <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
           </button>
         </div>
-      </div>
+      </NuxtLink>
     </div>
   </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
   <div>
-    <h1>Huevangxp 1010</h1>
+    <h1>Huevangxp 1</h1>
   </div>
 </template>

@@ -99,7 +99,7 @@ const triggerAction = async () => {
       </div>
 
       <!-- Right: Graphical Image Promotion -->
-      <div class="promo-image-column" v-if="layout !== 'compact'">
+      <div class="promo-image-column">
         <div class="image-glow-ring"></div>
         <img :src="campaignData.promoImg" :alt="campaignData.title" class="promo-graphic-img" />
       </div>
@@ -357,8 +357,22 @@ const triggerAction = async () => {
     padding: 1.5rem;
   }
   
+  .promo-grid-container {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  
   .promo-image-column {
-    display: none; /* Hide image column on mobile screen widths to conserve vertical height */
+    display: flex !important;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .promo-graphic-img {
+    max-width: 100%;
+    max-height: 140px;
+    object-fit: cover;
+    transform: none !important;
   }
   
   .promo-title {

@@ -9,17 +9,17 @@ export default defineNuxtConfig({
     manifest: {
       name: "HVX Pro",
       short_name: "HVXPro",
-      description: "a professional website.",
+      description: "A professional website.",
       theme_color: "#ffffff",
       start_url: "/", // ✨ CHANGED: Must be a valid route
       icons: [
         {
-          src: "/pwa-192x192.png", // ✨ CHANGED: Added leading slash
+          src: "/pwa-192x192.png",
           sizes: "192x192",
           type: "image/png",
         },
         {
-          src: "/pwa-512x512.png", // ✨ CHANGED: Added leading slash
+          src: "/pwa-512x512.png",
           sizes: "512x512",
           type: "image/png",
           purpose: "any maskable",

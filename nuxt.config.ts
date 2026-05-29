@@ -32,10 +32,10 @@ export default defineNuxtConfig({
     client: {
       installPrompt: true,
     },
-    devOptions: {
-      enabled: true,
-      suppressWarnings: true,
-      type: "module",
-    },
+    // devOptions: {
+    //   enabled: true,
+    //   suppressWarnings: true,
+    //   type: "module",
+    // },
   },
 });

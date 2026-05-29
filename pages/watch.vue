@@ -1,3 +1,16 @@
+<script setup>
+import { ref, onMounted } from 'vue'
+
+const showPopupAd = ref(false)
+
+onMounted(() => {
+  // Show popup ad after 3 seconds of watching
+  setTimeout(() => {
+    showPopupAd.value = true
+  }, 3000)
+})
+</script>
+
 <template>
   <div class="watch-page">
     <div class="main-content">
@@ -40,6 +53,21 @@
     <div class="related-videos">
       <h3 class="related-title">Up next</h3>
       <div class="related-list">
+        <!-- Sponsored Video Card in Up Next -->
+        <a href="#" class="related-card sponsored-related-card" style="text-decoration: none;">
+          <div class="related-thumbnail">
+            <img src="https://picsum.photos/seed/sponsor1/320/180" alt="Sponsored Thumbnail" />
+            <span class="sponsored-badge-small">Sponsored</span>
+            <span class="duration">0:30</span>
+          </div>
+          <div class="related-info">
+            <h4 class="related-video-title">The Ultimate Setup for Developers - Shop Now</h4>
+            <p class="related-channel">DevGear Official</p>
+            <p class="related-meta">Ad &bull; Shop now</p>
+          </div>
+        </a>
+
+        <!-- Normal Related Videos -->
         <NuxtLink :to="`/watch?v=${i}`" v-for="i in 8" :key="i" class="related-card" style="text-decoration: none;">
           <div class="related-thumbnail">
             <img :src="`https://picsum.photos/seed/${i + 20}/320/180`" alt="Thumbnail" />
@@ -51,6 +79,20 @@
             <p class="related-meta">{{ i * 22 }}K views &bull; {{ i + 2 }} days ago</p>
           </div>
         </NuxtLink>
+      </div>
+    </div>
+
+    <!-- Popup Ad Overlay -->
+    <div v-if="showPopupAd" class="popup-ad-overlay" @click.self="showPopupAd = false">
+      <div class="popup-ad-content">
+        <button class="popup-close" @click="showPopupAd = false">
+          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        <p class="popup-sponsored">Sponsored</p>
+        <h2 class="popup-title">Special Limited Time Offer!</h2>
+        <img src="https://picsum.photos/seed/popupad/600/300" alt="Popup Ad" class="popup-img" />
+        <p class="popup-desc">Get 50% off on all items today only. Don't miss out on this amazing deal!</p>
+        <a href="#" class="popup-btn">Claim Offer</a>
       </div>
     </div>
   </div>

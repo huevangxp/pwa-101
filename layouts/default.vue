@@ -74,6 +74,7 @@ const startPeriodicNotifications = () => {
 };
 
 onMounted(() => {
+  startPeriodicNotifications();
   window.addEventListener("beforeinstallprompt", (e) => {
     // Prevent default prompt from triggering automatically
     e.preventDefault();

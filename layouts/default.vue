@@ -1,17 +1,17 @@
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted } from "vue";
 
-const pwaEvent = useState('pwaEvent', () => null)
+const pwaEvent = useState("pwaEvent", () => null);
 
 onMounted(() => {
-  window.addEventListener('beforeinstallprompt', (e) => {
+  window.addEventListener("beforeinstallprompt", (e) => {
     // Prevent default prompt from triggering automatically
-    e.preventDefault()
+    e.preventDefault();
     // Stash the event so other components can trigger it
-    pwaEvent.value = e
-    console.log('HVX Pro PWA: beforeinstallprompt stashed')
-  })
-})
+    pwaEvent.value = e;
+    console.log("Start Pro PWA: beforeinstallprompt stashed");
+  });
+});
 </script>
 
 <template>
@@ -23,7 +23,7 @@ onMounted(() => {
           <span class="brand-logo">⚡</span>
           <span class="brand-name">Nuxt PWA</span>
         </div>
-        
+
         <!-- Desktop Navigation -->
         <nav class="nav-menu desktop-only">
           <NuxtLink to="/" class="nav-item">Home</NuxtLink>
@@ -36,7 +36,19 @@ onMounted(() => {
         <div class="header-actions">
           <!-- Mobile Header Icons (Search & Profile like YouTube) -->
           <button class="btn-icon mobile-only">
-            <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <svg
+              viewBox="0 0 24 24"
+              width="22"
+              height="22"
+              stroke="currentColor"
+              stroke-width="2"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
           </button>
           <NuxtLink to="/profile" class="btn-icon profile-icon mobile-only">
             <img src="https://i.pravatar.cc/100?img=68" alt="Profile" />
@@ -60,19 +72,67 @@ onMounted(() => {
     <!-- Mobile Bottom Navigation (YouTube style) -->
     <nav class="bottom-nav mobile-only">
       <NuxtLink to="/" class="bottom-nav-item">
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        <svg
+          viewBox="0 0 24 24"
+          width="24"
+          height="24"
+          stroke="currentColor"
+          stroke-width="2"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
         <span>Home</span>
       </NuxtLink>
       <a href="#" class="bottom-nav-item">
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+        <svg
+          viewBox="0 0 24 24"
+          width="24"
+          height="24"
+          stroke="currentColor"
+          stroke-width="2"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+        </svg>
         <span>Features</span>
       </a>
       <NuxtLink to="/images" class="bottom-nav-item">
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+        <svg
+          viewBox="0 0 24 24"
+          width="24"
+          height="24"
+          stroke="currentColor"
+          stroke-width="2"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <circle cx="8.5" cy="8.5" r="1.5"></circle>
+          <polyline points="21 15 16 10 5 21"></polyline>
+        </svg>
         <span>Images</span>
       </NuxtLink>
       <NuxtLink to="/profile" class="bottom-nav-item">
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        <svg
+          viewBox="0 0 24 24"
+          width="24"
+          height="24"
+          stroke="currentColor"
+          stroke-width="2"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
         <span>You</span>
       </NuxtLink>
     </nav>
@@ -80,7 +140,7 @@ onMounted(() => {
 </template>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
 
 :root {
   --bg-primary: #0a0f1d;
@@ -96,7 +156,13 @@ onMounted(() => {
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family:
+    "Plus Jakarta Sans",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
   background-color: var(--bg-primary);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
@@ -169,7 +235,8 @@ body {
   transition: color 0.2s ease;
 }
 
-.nav-item:hover, .nav-item.router-link-active {
+.nav-item:hover,
+.nav-item.router-link-active {
   color: var(--text-primary);
 }
 
@@ -254,7 +321,7 @@ body {
   .desktop-only {
     display: none !important;
   }
-  
+
   .mobile-only {
     display: flex !important;
   }
@@ -301,7 +368,8 @@ body {
     font-weight: 500;
   }
 
-  .bottom-nav-item:hover, .bottom-nav-item.router-link-active {
+  .bottom-nav-item:hover,
+  .bottom-nav-item.router-link-active {
     color: var(--text-primary);
   }
 }

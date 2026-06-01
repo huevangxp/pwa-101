@@ -11,6 +11,9 @@ export default defineNuxtConfig({
   },
 
   pwa: {
+    strategies: "injectManifest",
+    srcDir: "public",
+    filename: "sw.js",
     registerType: "autoUpdate",
     manifest: {
       name: "Start Pro",
@@ -32,7 +35,7 @@ export default defineNuxtConfig({
         },
       ],
     },
-    workbox: {
+    injectManifest: {
       globPatterns: ["**/*.{js,css,html,png,svg,ico}"],
     },
     client: {

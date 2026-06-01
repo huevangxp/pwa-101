@@ -1,7 +1,56 @@
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, onBeforeUnmount } from "vue";
 
 const pwaEvent = useState("pwaEvent", () => null);
+
+let periodicTimer = null;
+
+const triggerPeriodicNotification = async () => {
+  if (!process.client || !('Notification' in window) || Notification.permission !== 'granted') return;
+  
+  const title = "Start Pro Channel Update 🔔";
+  const options = {
+    body: "Start Pro App just posted a new tutorial! Watch now to learn advanced PWA development features.",
+    icon: "/pwa-192x192.png",
+    badge: "/favicon.ico",
+    vibrate: [200, 100, 200],
+    tag: "start-pro-periodic",
+    renotify: true,
+    data: {
+      url: window.location.origin + "/profile"
+    }
+  };
+
+  try {
+    if ('serviceWorker' in navigator) {
+      const reg = await navigator.serviceWorker.ready;
+      if (reg) {
+        await reg.showNotification(title, options);
+        return;
+      }
+    }
+    const n = new Notification(title, options);
+    n.onclick = () => {
+      window.focus();
+    };
+  } catch (e) {
+    const n = new Notification(title, options);
+    n.onclick = () => {
+      window.focus();
+    };
+  }
+};
+
+const startPeriodicNotifications = () => {
+  if (periodicTimer) clearInterval(periodicTimer);
+  
+  // Set up the interval (every 5 minutes = 5 * 60 * 1000 = 300,000 ms)
+  periodicTimer = setInterval(() => {
+    triggerPeriodicNotification();
+  }, 5 * 60 * 1000);
+  
+  console.log("Start Pro PWA: 5-minute periodic notification timer started.");
+};
 
 onMounted(() => {
   window.addEventListener("beforeinstallprompt", (e) => {
@@ -11,6 +60,30 @@ onMounted(() => {
     pwaEvent.value = e;
     console.log("Start Pro PWA: beforeinstallprompt stashed");
   });
+
+  // Start periodic timer if permission is already granted
+  if (process.client && 'Notification' in window && Notification.permission === 'granted') {
+    startPeriodicNotifications();
+  }
+
+  // Listen for enabling event from homepage permission prompt modal
+  window.addEventListener('start-pro-notifications-enabled', () => {
+    startPeriodicNotifications();
+  });
+  
+  // Recheck on focus to capture permissions granted in browser settings
+  window.addEventListener('focus', () => {
+    if (process.client && 'Notification' in window && Notification.permission === 'granted' && !periodicTimer) {
+      startPeriodicNotifications();
+    }
+  });
+});
+
+onBeforeUnmount(() => {
+  if (periodicTimer) {
+    clearInterval(periodicTimer);
+    periodicTimer = null;
+  }
 });
 </script>
 

@@ -28,6 +28,7 @@ onMounted(() => {
         <nav class="nav-menu desktop-only">
           <NuxtLink to="/" class="nav-item">Home</NuxtLink>
           <NuxtLink to="/images" class="nav-item">Images</NuxtLink>
+          <NuxtLink to="/profile" class="nav-item">Profile</NuxtLink>
           <a href="#" class="nav-item">Features</a>
           <a href="#" class="nav-item">About</a>
         </nav>
@@ -37,9 +38,9 @@ onMounted(() => {
           <button class="btn-icon mobile-only">
             <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
           </button>
-          <button class="btn-icon profile-icon mobile-only">
+          <NuxtLink to="/profile" class="btn-icon profile-icon mobile-only">
             <img src="https://i.pravatar.cc/100?img=68" alt="Profile" />
-          </button>
+          </NuxtLink>
         </div>
       </div>
     </header>
@@ -70,10 +71,10 @@ onMounted(() => {
         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
         <span>Images</span>
       </NuxtLink>
-      <a href="#" class="bottom-nav-item">
+      <NuxtLink to="/profile" class="bottom-nav-item">
         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
         <span>You</span>
-      </a>
+      </NuxtLink>
     </nav>
   </div>
 </template>

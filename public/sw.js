@@ -17,11 +17,12 @@ self.addEventListener('push', (event) => {
   }
 
   const data = event.data?.json() ?? {}
-  const title = data.title || 'New Notification'
+  const title = data.title || 'Start Pro'
   const options = {
-    body: data.body || 'You have a new message.',
-    icon: '/icon.png',
-    badge: '/badge.png',
+    body: data.body || 'A professional website.',
+    icon: '/pwa-192x192.png',
+    badge: '/favicon.ico',
+    vibrate: [200, 100, 200],
     data: data.url // Store a URL to open on click
   }
 

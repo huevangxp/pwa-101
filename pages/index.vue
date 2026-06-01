@@ -30,7 +30,7 @@ const triggerInstall = async () => {
       pwaEvent.value = null
     }
   } else {
-    alert("To install HVX Pro, tap the Share button in your browser and select 'Add to Home Screen'.")
+    alert("To install Start Pro, tap the Share button in your browser and select 'Add to Home Screen'.")
   }
 }
 
@@ -75,7 +75,7 @@ const setSlide = (idx) => {
               :key="idx" 
               :class="['slide', { active: currentSlide === idx }]"
             >
-              <img :src="img" alt="Promote HVX Pro" class="ad-img" />
+              <img :src="img" alt="Promote Start Pro" class="ad-img" />
             </div>
           </a>
         </div>
@@ -127,7 +127,7 @@ const setSlide = (idx) => {
                 Building an amazing Nuxt 3 PWA App like YouTube from scratch -
                 Part {{ i }}
               </h3>
-              <p class="channel-name">Huevangxp Channel</p>
+              <p class="channel-name">Start Pro App</p>
               <p class="video-meta">
                 {{ i * 14 }}K views &bull; {{ i }} days ago
               </p>

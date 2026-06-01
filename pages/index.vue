@@ -12,15 +12,69 @@ const promoImages = [
 const currentSlide = ref(0)
 let slideInterval = null
 
+// First visit popup state
+const showNotifModal = ref(false)
+
 onMounted(() => {
   slideInterval = setInterval(() => {
     currentSlide.value = (currentSlide.value + 1) % promoImages.length
   }, 4000)
+
+  // Trigger popup modal on first visit for default permission status
+  if (process.client && 'Notification' in window) {
+    const isDismissed = sessionStorage.getItem('start_pro_notif_dismissed')
+    if (Notification.permission === 'default' && !isDismissed) {
+      setTimeout(() => {
+        showNotifModal.value = true
+      }, 1500)
+    }
+  }
 })
 
 onBeforeUnmount(() => {
   if (slideInterval) clearInterval(slideInterval)
 })
+
+const acceptNotifications = async () => {
+  showNotifModal.value = false
+  if (!process.client || !('Notification' in window)) return
+
+  try {
+    const permission = await Notification.requestPermission()
+    if (permission === 'granted') {
+      const title = "Start Pro Subscription Activated 🔔"
+      const options = {
+        body: "You will now receive automatic notifications from Start Pro App.",
+        icon: "/pwa-192x192.png",
+        badge: "/favicon.ico",
+        vibrate: [200, 100, 200]
+      }
+      
+      if ('serviceWorker' in navigator) {
+        const reg = await navigator.serviceWorker.ready
+        if (reg) {
+          reg.showNotification(title, options)
+        } else {
+          new Notification(title, options)
+        }
+      } else {
+        new Notification(title, options)
+      }
+      
+      // Dispatch event to trigger layouts/default.vue interval instantly
+      window.dispatchEvent(new Event('start-pro-notifications-enabled'))
+    }
+  } catch (e) {
+    console.error("Failed to request notification permission:", e)
+  }
+}
+
+const dismissNotifications = () => {
+  showNotifModal.value = false
+  if (process.client) {
+    sessionStorage.setItem('start_pro_notif_dismissed', 'true')
+  }
+}
 
 const triggerInstall = async () => {
   if (pwaEvent.value) {
@@ -49,6 +103,24 @@ const setSlide = (idx) => {
 
 <template>
   <div class="video-feed">
+    <!-- Beautiful Notification Permission Modal -->
+    <Transition name="fade-scale">
+      <div v-if="showNotifModal" class="notif-modal-overlay">
+        <div class="notif-modal-card">
+          <div class="notif-modal-glow"></div>
+          <div class="notif-modal-bell">🔔</div>
+          <h3 class="notif-modal-title">Enable Alerts</h3>
+          <p class="notif-modal-desc">
+            Stay updated with Start Pro App! Get live stream notifications, new video alerts, and tutorial insights directly on your device.
+          </p>
+          <div class="notif-modal-actions">
+            <button class="btn-secondary-notif" @click="dismissNotifications">Not Now</button>
+            <button class="btn-primary-notif" @click="acceptNotifications">Allow Alerts</button>
+          </div>
+        </div>
+      </div>
+    </Transition>
+
     <!-- Categories Filter (Like YouTube's top pills) -->
     <div class="categories-container">
       <div class="categories-scroll">
@@ -533,5 +605,147 @@ const setSlide = (idx) => {
   background: #ffffff;
   transform: scale(1.2);
   box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+}
+
+/* Gorgeous Notification Permission Modal Styles */
+.notif-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(10, 15, 29, 0.80);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.notif-modal-card {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 2.25rem 2rem;
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  box-sizing: border-box;
+}
+
+.notif-modal-glow {
+  position: absolute;
+  top: -50px;
+  left: -50px;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.3) 0%, transparent 70%);
+  filter: blur(20px);
+  pointer-events: none;
+}
+
+.notif-modal-bell {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: inline-block;
+  animation: modalBellShake 2s infinite ease-in-out;
+}
+
+@keyframes modalBellShake {
+  0% { transform: rotate(0); }
+  10% { transform: rotate(15deg); }
+  20% { transform: rotate(-15deg); }
+  30% { transform: rotate(10deg); }
+  40% { transform: rotate(-10deg); }
+  50% { transform: rotate(0); }
+  100% { transform: rotate(0); }
+}
+
+.notif-modal-title {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.notif-modal-desc {
+  margin: 0 0 1.75rem 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.notif-modal-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.btn-secondary-notif {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.75rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex: 1;
+}
+
+.btn-secondary-notif:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.btn-primary-notif {
+  background: var(--accent-gradient);
+  color: white;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
+  flex: 1;
+}
+
+.btn-primary-notif:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.55);
+}
+
+/* Fade Scale Animation */
+.fade-scale-enter-active,
+.fade-scale-leave-active {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fade-scale-enter-from {
+  opacity: 0;
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+}
+.fade-scale-enter-from .notif-modal-card {
+  transform: scale(0.9) translateY(20px);
+  opacity: 0;
+}
+
+.fade-scale-leave-to {
+  opacity: 0;
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+}
+.fade-scale-leave-to .notif-modal-card {
+  transform: scale(0.95) translateY(10px);
+  opacity: 0;
 }
 </style>

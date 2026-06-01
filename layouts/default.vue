@@ -29,8 +29,6 @@ onMounted(() => {
           <NuxtLink to="/" class="nav-item">Home</NuxtLink>
           <NuxtLink to="/images" class="nav-item">Images</NuxtLink>
           <NuxtLink to="/profile" class="nav-item">Profile</NuxtLink>
-          <a href="#" class="nav-item">Features</a>
-          <a href="#" class="nav-item">About</a>
         </nav>
 
         <div class="header-actions">

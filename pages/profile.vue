@@ -93,7 +93,7 @@ const requestPermission = async () => {
     permissionStatus.value = permission
     if (permission === 'granted') {
       showToast("Notification permission granted! Welcome aboard.", "success")
-      sendPwaNotification("Start Pro Subscription Activated", "You have successfully subscribed to channel updates from Huevangxp.")
+      sendPwaNotification("Start Pro Subscription Activated", "You have successfully subscribed to channel updates from Start Pro App.")
     } else if (permission === 'denied') {
       showToast("Permission denied. You can re-enable this in browser settings.", "error")
     }
@@ -115,7 +115,7 @@ const sendPwaNotification = async (title, body) => {
     icon: '/pwa-192x192.png',
     badge: '/favicon.ico',
     vibrate: [200, 100, 200],
-    tag: 'hvx-pwa-general',
+    tag: 'start-pro-general',
     renotify: true,
     data: {
       url: window.location.origin + '/profile'
@@ -164,8 +164,8 @@ const scheduleNotification = () => {
   
   setTimeout(() => {
     sendPwaNotification(
-      "Huevangxp Live Stream Starting",
-      `Join Huevangxp live right now for the weekly Nuxt 3 developer stream.`
+      "Start Pro Live Stream Starting",
+      `Join Start Pro App live right now for the weekly Nuxt 3 developer stream.`
     )
     isScheduling.value = false
   }, scheduleSeconds.value * 1000)
@@ -178,7 +178,7 @@ const triggerInstall = async () => {
     const { outcome } = await pwaEvent.value.userChoice
     if (outcome === 'accepted') {
       pwaEvent.value = null
-      showToast("Thank you for installing HVX Pro!", "success")
+      showToast("Thank you for installing Start Pro!", "success")
     }
   } else {
     showToast("PWA is already installed or your browser does not support automatic prompts.", "info")
@@ -202,16 +202,16 @@ onMounted(() => {
   checkServiceWorker()
   
   // Persist preference values if already present
-  if (localStorage.getItem('hvx_notify_prefs')) {
+  if (localStorage.getItem('start_pro_notify_prefs')) {
     try {
-      notifyPrefs.value = JSON.parse(localStorage.getItem('hvx_notify_prefs'))
+      notifyPrefs.value = JSON.parse(localStorage.getItem('start_pro_notify_prefs'))
     } catch(e) {}
   }
 })
 
 const togglePref = (key) => {
   notifyPrefs.value[key] = !notifyPrefs.value[key]
-  localStorage.setItem('hvx_notify_prefs', JSON.stringify(notifyPrefs.value))
+  localStorage.setItem('start_pro_notify_prefs', JSON.stringify(notifyPrefs.value))
   showToast("Preferences updated!", "success")
 }
 </script>
@@ -331,7 +331,7 @@ const togglePref = (key) => {
             class="btn btn-install-glow full-width" 
             @click="triggerInstall"
           >
-            ⚡ Install HVX Pro on Desktop/Mobile
+            ⚡ Install Start Pro on Desktop/Mobile
           </button>
         </div>
       </div>

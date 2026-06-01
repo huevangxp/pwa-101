@@ -1,219 +1,255 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed } from "vue";
 
-const pwaEvent = useState('pwaEvent')
+const pwaEvent = useState("pwaEvent");
 
 // Profile State
 const profile = ref({
-  name: 'Huevangxp',
-  email: 'huevangxp@gmail.com',
-  bio: 'Creative Frontend Developer & PWA enthusiast building high-performance modern web apps.',
-  subscribers: '1.2M',
-  videos: '342',
-  joined: 'June 2024',
-  avatar: 'https://i.pravatar.cc/150?img=68'
-})
+  name: "Start Pro",
+  email: "startpro@gmail.com",
+  bio: "Creative Frontend Developer & PWA enthusiast building high-performance modern web apps.",
+  subscribers: "1.2M",
+  videos: "342",
+  joined: "June 2024",
+  avatar: "https://i.pravatar.cc/150?img=68",
+});
 
-const isEditing = ref(false)
-const editedProfile = ref({ ...profile.value })
+const isEditing = ref(false);
+const editedProfile = ref({ ...profile.value });
 
 // Notification Preferences
 const notifyPrefs = ref({
   newVideos: true,
   creatorUpdates: true,
   channelAnalytics: false,
-  comments: true
-})
+  comments: true,
+});
 
 // Toast Messages State
 const toast = ref({
   show: false,
-  message: '',
-  type: 'success'
-})
+  message: "",
+  type: "success",
+});
 
-let toastTimeout = null
-const showToast = (msg, type = 'success') => {
-  if (toastTimeout) clearTimeout(toastTimeout)
-  toast.value = { show: true, message: msg, type }
+let toastTimeout = null;
+const showToast = (msg, type = "success") => {
+  if (toastTimeout) clearTimeout(toastTimeout);
+  toast.value = { show: true, message: msg, type };
   toastTimeout = setTimeout(() => {
-    toast.value.show = false
-  }, 4000)
-}
+    toast.value.show = false;
+  }, 4000);
+};
 
 // Notification API State
-const permissionStatus = ref('default') // 'default', 'granted', 'denied', 'unsupported'
-const isServiceWorkerActive = ref(false)
+const permissionStatus = ref("default"); // 'default', 'granted', 'denied', 'unsupported'
+const isServiceWorkerActive = ref(false);
 
 const getPermissionClass = computed(() => {
   switch (permissionStatus.value) {
-    case 'granted': return 'badge-success'
-    case 'denied': return 'badge-danger'
-    case 'default': return 'badge-warning'
-    default: return 'badge-secondary'
+    case "granted":
+      return "badge-success";
+    case "denied":
+      return "badge-danger";
+    case "default":
+      return "badge-warning";
+    default:
+      return "badge-secondary";
   }
-})
+});
 
 const checkNotificationSupport = () => {
-  if (!process.client) return
-  if (!('Notification' in window)) {
-    permissionStatus.value = 'unsupported'
-    return
+  if (!process.client) return;
+  if (!("Notification" in window)) {
+    permissionStatus.value = "unsupported";
+    return;
   }
-  permissionStatus.value = Notification.permission
-}
+  permissionStatus.value = Notification.permission;
+};
 
 const checkServiceWorker = async () => {
-  if (process.client && 'serviceWorker' in navigator) {
+  if (process.client && "serviceWorker" in navigator) {
     try {
-      const reg = await navigator.serviceWorker.getRegistration()
-      isServiceWorkerActive.value = !!reg
+      const reg = await navigator.serviceWorker.getRegistration();
+      isServiceWorkerActive.value = !!reg;
     } catch (e) {
-      isServiceWorkerActive.value = false
+      isServiceWorkerActive.value = false;
     }
   }
-}
+};
 
 // Notification Inbox Mock Log
 const notificationInbox = ref([
-  { id: 1, title: '⚡ PWA Integration Active', body: 'Your PWA is configured and caching offline resources.', time: '2 mins ago', icon: '⚡' },
-  { id: 2, title: '🎉 Welcome to your Profile', body: 'Customise your notifications and user details here.', time: '10 mins ago', icon: '👤' }
-])
+  {
+    id: 1,
+    title: "⚡ PWA Integration Active",
+    body: "Your PWA is configured and caching offline resources.",
+    time: "2 mins ago",
+    icon: "⚡",
+  },
+  {
+    id: 2,
+    title: "🎉 Welcome to your Profile",
+    body: "Customise your notifications and user details here.",
+    time: "10 mins ago",
+    icon: "👤",
+  },
+]);
 
 // Request Permission
 const requestPermission = async () => {
-  if (!process.client) return
-  if (!('Notification' in window)) {
-    showToast("Notifications not supported on this browser.", "error")
-    return
+  if (!process.client) return;
+  if (!("Notification" in window)) {
+    showToast("Notifications not supported on this browser.", "error");
+    return;
   }
-  
+
   try {
-    const permission = await Notification.requestPermission()
-    permissionStatus.value = permission
-    if (permission === 'granted') {
-      showToast("Notification permission granted! Welcome aboard.", "success")
-      sendPwaNotification("Start Pro Subscription Activated", "You have successfully subscribed to channel updates from Start Pro App.")
-    } else if (permission === 'denied') {
-      showToast("Permission denied. You can re-enable this in browser settings.", "error")
+    const permission = await Notification.requestPermission();
+    permissionStatus.value = permission;
+    if (permission === "granted") {
+      showToast("Notification permission granted! Welcome aboard.", "success");
+      sendPwaNotification(
+        "Start Pro Subscription Activated",
+        "You have successfully subscribed to channel updates from Start Pro App.",
+      );
+    } else if (permission === "denied") {
+      showToast(
+        "Permission denied. You can re-enable this in browser settings.",
+        "error",
+      );
     }
   } catch (err) {
-    console.error("Error requesting permission:", err)
+    console.error("Error requesting permission:", err);
   }
-}
+};
 
 // Send Native PWA Notification
 const sendPwaNotification = async (title, body) => {
-  if (!process.client) return
-  if (permissionStatus.value !== 'granted') {
-    await requestPermission()
-    if (permissionStatus.value !== 'granted') return
+  if (!process.client) return;
+  if (permissionStatus.value !== "granted") {
+    await requestPermission();
+    if (permissionStatus.value !== "granted") return;
   }
 
   const options = {
     body: body,
-    icon: '/pwa-192x192.png',
-    badge: '/favicon.ico',
+    icon: "/pwa-192x192.png",
+    badge: "/favicon.ico",
     vibrate: [200, 100, 200],
-    tag: 'start-pro-general',
+    tag: "start-pro-general",
     renotify: true,
     data: {
-      url: window.location.origin + '/profile'
-    }
-  }
+      url: window.location.origin + "/profile",
+    },
+  };
 
   // Push to local log
   notificationInbox.value.unshift({
     id: Date.now(),
     title,
     body,
-    time: 'Just now',
-    icon: '🔔'
-  })
+    time: "Just now",
+    icon: "🔔",
+  });
 
   try {
-    if ('serviceWorker' in navigator) {
-      const reg = await navigator.serviceWorker.ready
+    if ("serviceWorker" in navigator) {
+      const reg = await navigator.serviceWorker.ready;
       if (reg) {
-        await reg.showNotification(title, options)
-        return
+        await reg.showNotification(title, options);
+        return;
       }
     }
     // Fallback if ServiceWorker isn't running/supported
-    const n = new Notification(title, options)
+    const n = new Notification(title, options);
     n.onclick = () => {
-      window.focus()
-    }
+      window.focus();
+    };
   } catch (error) {
-    console.warn("SW notification failed, falling back to standard notification:", error)
-    const n = new Notification(title, options)
+    console.warn(
+      "SW notification failed, falling back to standard notification:",
+      error,
+    );
+    const n = new Notification(title, options);
     n.onclick = () => {
-      window.focus()
-    }
+      window.focus();
+    };
   }
-}
+};
 
 // Background Scheduling
-const scheduleSeconds = ref(5)
-const isScheduling = ref(false)
+const scheduleSeconds = ref(5);
+const isScheduling = ref(false);
 
 const scheduleNotification = () => {
-  if (isScheduling.value) return
-  isScheduling.value = true
-  showToast(`Notification scheduled in ${scheduleSeconds.value}s. Try minimizing the app!`, "success")
-  
+  if (isScheduling.value) return;
+  isScheduling.value = true;
+  showToast(
+    `Notification scheduled in ${scheduleSeconds.value}s. Try minimizing the app!`,
+    "success",
+  );
+
   setTimeout(() => {
     sendPwaNotification(
       "Start Pro Live Stream Starting",
-      `Join Start Pro App live right now for the weekly Nuxt 3 developer stream.`
-    )
-    isScheduling.value = false
-  }, scheduleSeconds.value * 1000)
-}
+      `Join Start Pro App live right now for the weekly Nuxt 3 developer stream.`,
+    );
+    isScheduling.value = false;
+  }, scheduleSeconds.value * 1000);
+};
 
 // Trigger App Install
 const triggerInstall = async () => {
   if (pwaEvent.value) {
-    pwaEvent.value.prompt()
-    const { outcome } = await pwaEvent.value.userChoice
-    if (outcome === 'accepted') {
-      pwaEvent.value = null
-      showToast("Thank you for installing Start Pro!", "success")
+    pwaEvent.value.prompt();
+    const { outcome } = await pwaEvent.value.userChoice;
+    if (outcome === "accepted") {
+      pwaEvent.value = null;
+      showToast("Thank you for installing Start Pro!", "success");
     }
   } else {
-    showToast("PWA is already installed or your browser does not support automatic prompts.", "info")
+    showToast(
+      "PWA is already installed or your browser does not support automatic prompts.",
+      "info",
+    );
   }
-}
+};
 
 const saveProfile = () => {
-  profile.value = { ...editedProfile.value }
-  isEditing.value = false
-  showToast("Profile settings saved successfully!", "success")
-}
+  profile.value = { ...editedProfile.value };
+  isEditing.value = false;
+  showToast("Profile settings saved successfully!", "success");
+};
 
 const cancelEditing = () => {
-  editedProfile.value = { ...profile.value }
-  isEditing.value = false
-}
+  editedProfile.value = { ...profile.value };
+  isEditing.value = false;
+};
 
 // Load configurations
 onMounted(() => {
-  checkNotificationSupport()
-  checkServiceWorker()
-  
+  checkNotificationSupport();
+  checkServiceWorker();
+
   // Persist preference values if already present
-  if (localStorage.getItem('start_pro_notify_prefs')) {
+  if (localStorage.getItem("start_pro_notify_prefs")) {
     try {
-      notifyPrefs.value = JSON.parse(localStorage.getItem('start_pro_notify_prefs'))
-    } catch(e) {}
+      notifyPrefs.value = JSON.parse(
+        localStorage.getItem("start_pro_notify_prefs"),
+      );
+    } catch (e) {}
   }
-})
+});
 
 const togglePref = (key) => {
-  notifyPrefs.value[key] = !notifyPrefs.value[key]
-  localStorage.setItem('start_pro_notify_prefs', JSON.stringify(notifyPrefs.value))
-  showToast("Preferences updated!", "success")
-}
+  notifyPrefs.value[key] = !notifyPrefs.value[key];
+  localStorage.setItem(
+    "start_pro_notify_prefs",
+    JSON.stringify(notifyPrefs.value),
+  );
+  showToast("Preferences updated!", "success");
+};
 </script>
 
 <template>
@@ -241,7 +277,6 @@ const togglePref = (key) => {
 
     <!-- Main Grid Dashboard -->
     <div class="profile-grid">
-      
       <!-- Left Column: User details -->
       <div class="grid-col-left">
         <!-- Avatar card -->
@@ -272,9 +307,9 @@ const togglePref = (key) => {
           </div>
 
           <div class="card-footer-actions">
-            <button 
-              v-if="!isEditing" 
-              class="btn-outline-primary full-width" 
+            <button
+              v-if="!isEditing"
+              class="btn-outline-primary full-width"
               @click="isEditing = true"
             >
               Edit Profile details
@@ -288,19 +323,37 @@ const togglePref = (key) => {
             <h3 class="card-title">Edit Profile Information</h3>
             <div class="form-group">
               <label class="form-label">Display Name</label>
-              <input type="text" v-model="editedProfile.name" class="form-input" placeholder="Name" />
+              <input
+                type="text"
+                v-model="editedProfile.name"
+                class="form-input"
+                placeholder="Name"
+              />
             </div>
             <div class="form-group">
               <label class="form-label">Email Address</label>
-              <input type="email" v-model="editedProfile.email" class="form-input" placeholder="Email" />
+              <input
+                type="email"
+                v-model="editedProfile.email"
+                class="form-input"
+                placeholder="Email"
+              />
             </div>
             <div class="form-group">
               <label class="form-label">Bio Description</label>
-              <textarea v-model="editedProfile.bio" class="form-textarea" placeholder="Describe yourself..."></textarea>
+              <textarea
+                v-model="editedProfile.bio"
+                class="form-textarea"
+                placeholder="Describe yourself..."
+              ></textarea>
             </div>
             <div class="form-actions">
-              <button class="btn btn-secondary" @click="cancelEditing">Cancel</button>
-              <button class="btn btn-primary" @click="saveProfile">Save Changes</button>
+              <button class="btn btn-secondary" @click="cancelEditing">
+                Cancel
+              </button>
+              <button class="btn btn-primary" @click="saveProfile">
+                Save Changes
+              </button>
             </div>
           </div>
         </Transition>
@@ -310,25 +363,46 @@ const togglePref = (key) => {
           <h3 class="card-title">PWA & System Metrics</h3>
           <div class="status-row">
             <span>Service Worker:</span>
-            <span :class="['status-value-badge', isServiceWorkerActive ? 'val-active' : 'val-inactive']">
-              {{ isServiceWorkerActive ? 'ACTIVE' : 'INACTIVE' }}
+            <span
+              :class="[
+                'status-value-badge',
+                isServiceWorkerActive ? 'val-active' : 'val-inactive',
+              ]"
+            >
+              {{ isServiceWorkerActive ? "ACTIVE" : "INACTIVE" }}
             </span>
           </div>
           <div class="status-row">
             <span>Notification Support:</span>
-            <span :class="['status-value-badge', permissionStatus !== 'unsupported' ? 'val-active' : 'val-inactive']">
-              {{ permissionStatus !== 'unsupported' ? 'SUPPORTED' : 'NOT SUPPORTED' }}
+            <span
+              :class="[
+                'status-value-badge',
+                permissionStatus !== 'unsupported'
+                  ? 'val-active'
+                  : 'val-inactive',
+              ]"
+            >
+              {{
+                permissionStatus !== "unsupported"
+                  ? "SUPPORTED"
+                  : "NOT SUPPORTED"
+              }}
             </span>
           </div>
           <div class="status-row">
             <span>PWA Installs Prompt:</span>
-            <span :class="['status-value-badge', pwaEvent ? 'val-active' : 'val-neutral']">
-              {{ pwaEvent ? 'AVAILABLE' : 'INSTALLED / BLOCKED' }}
+            <span
+              :class="[
+                'status-value-badge',
+                pwaEvent ? 'val-active' : 'val-neutral',
+              ]"
+            >
+              {{ pwaEvent ? "AVAILABLE" : "INSTALLED / BLOCKED" }}
             </span>
           </div>
-          <button 
-            v-if="pwaEvent" 
-            class="btn btn-install-glow full-width" 
+          <button
+            v-if="pwaEvent"
+            class="btn btn-install-glow full-width"
             @click="triggerInstall"
           >
             ⚡ Install Start Pro on Desktop/Mobile
@@ -338,7 +412,6 @@ const togglePref = (key) => {
 
       <!-- Right Column: Notifications center -->
       <div class="grid-col-right">
-        
         <!-- Notification Permissions Card -->
         <div class="glass-card notification-panel-card">
           <div class="card-header-icon">
@@ -356,19 +429,28 @@ const togglePref = (key) => {
                 {{ permissionStatus.toUpperCase() }}
               </span>
             </div>
-            <p v-if="permissionStatus === 'default'" class="permission-description">
-              Receive notifications for channel updates, live streams, and responses. Click below to allow permissions.
+            <p
+              v-if="permissionStatus === 'default'"
+              class="permission-description"
+            >
+              Receive notifications for channel updates, live streams, and
+              responses. Click below to allow permissions.
             </p>
-            <p v-else-if="permissionStatus === 'granted'" class="permission-description text-success">
-              You are ready! Notifications are successfully configured on this PWA.
+            <p
+              v-else-if="permissionStatus === 'granted'"
+              class="permission-description text-success"
+            >
+              You are ready! Notifications are successfully configured on this
+              PWA.
             </p>
             <p v-else class="permission-description text-danger">
-              Notifications are blocked. Please reset site permissions in your browser's address bar to enable notifications.
+              Notifications are blocked. Please reset site permissions in your
+              browser's address bar to enable notifications.
             </p>
-            
-            <button 
-              v-if="permissionStatus !== 'granted'" 
-              class="btn btn-primary" 
+
+            <button
+              v-if="permissionStatus !== 'granted'"
+              class="btn btn-primary"
               @click="requestPermission"
             >
               Request Permission
@@ -379,28 +461,37 @@ const togglePref = (key) => {
           <div class="quick-notif-actions">
             <h4 class="section-title">Developer Utilities</h4>
             <div class="button-row">
-              <button 
-                class="btn btn-primary btn-glow-purple" 
+              <button
+                class="btn btn-primary btn-glow-purple"
                 :disabled="permissionStatus !== 'granted'"
-                @click="sendPwaNotification('Huevangxp Uploaded a Video', 'Nuxt 3 PWA Masterclass: Building offline apps with Workbox. Watch now!')"
+                @click="
+                  sendPwaNotification(
+                    'Huevangxp Uploaded a Video',
+                    'Nuxt 3 PWA Masterclass: Building offline apps with Workbox. Watch now!',
+                  )
+                "
               >
                 Simulate Video Upload
               </button>
-              
+
               <div class="scheduler-box">
-                <button 
-                  class="btn btn-secondary btn-schedule" 
+                <button
+                  class="btn btn-secondary btn-schedule"
                   :disabled="permissionStatus !== 'granted' || isScheduling"
                   @click="scheduleNotification"
                 >
-                  {{ isScheduling ? 'Scheduling...' : `Schedule (${scheduleSeconds}s)` }}
+                  {{
+                    isScheduling
+                      ? "Scheduling..."
+                      : `Schedule (${scheduleSeconds}s)`
+                  }}
                 </button>
                 <div class="schedule-input-wrapper">
-                  <input 
-                    type="number" 
-                    v-model="scheduleSeconds" 
-                    min="1" 
-                    max="60" 
+                  <input
+                    type="number"
+                    v-model="scheduleSeconds"
+                    min="1"
+                    max="60"
                     class="schedule-sec-input"
                   />
                   <span class="sec-label">sec</span>
@@ -414,16 +505,19 @@ const togglePref = (key) => {
         <div class="glass-card preference-settings-card">
           <h3 class="card-title">Subscription Preferences</h3>
           <p class="card-subtitle">Choose the types of updates you receive</p>
-          
+
           <div class="preference-list">
-            
             <!-- Toggle 1 -->
             <div class="preference-item" @click="togglePref('newVideos')">
               <div class="pref-text">
                 <span class="pref-name">New Upload Alerts</span>
-                <span class="pref-desc">Get notified as soon as new videos are published.</span>
+                <span class="pref-desc"
+                  >Get notified as soon as new videos are published.</span
+                >
               </div>
-              <div :class="['custom-toggle', { active: notifyPrefs.newVideos }]">
+              <div
+                :class="['custom-toggle', { active: notifyPrefs.newVideos }]"
+              >
                 <span class="toggle-slider"></span>
               </div>
             </div>
@@ -432,9 +526,16 @@ const togglePref = (key) => {
             <div class="preference-item" @click="togglePref('creatorUpdates')">
               <div class="pref-text">
                 <span class="pref-name">Creator Updates & Stories</span>
-                <span class="pref-desc">Be notified when creators post text posts or updates.</span>
+                <span class="pref-desc"
+                  >Be notified when creators post text posts or updates.</span
+                >
               </div>
-              <div :class="['custom-toggle', { active: notifyPrefs.creatorUpdates }]">
+              <div
+                :class="[
+                  'custom-toggle',
+                  { active: notifyPrefs.creatorUpdates },
+                ]"
+              >
                 <span class="toggle-slider"></span>
               </div>
             </div>
@@ -443,7 +544,9 @@ const togglePref = (key) => {
             <div class="preference-item" @click="togglePref('comments')">
               <div class="pref-text">
                 <span class="pref-name">Comments & Mentions</span>
-                <span class="pref-desc">Alerts when someone replies to your channel comments.</span>
+                <span class="pref-desc"
+                  >Alerts when someone replies to your channel comments.</span
+                >
               </div>
               <div :class="['custom-toggle', { active: notifyPrefs.comments }]">
                 <span class="toggle-slider"></span>
@@ -451,16 +554,25 @@ const togglePref = (key) => {
             </div>
 
             <!-- Toggle 4 -->
-            <div class="preference-item" @click="togglePref('channelAnalytics')">
+            <div
+              class="preference-item"
+              @click="togglePref('channelAnalytics')"
+            >
               <div class="pref-text">
                 <span class="pref-name">Creator Studio Insights</span>
-                <span class="pref-desc">Weekly updates on subscriber spikes and watchtimes.</span>
+                <span class="pref-desc"
+                  >Weekly updates on subscriber spikes and watchtimes.</span
+                >
               </div>
-              <div :class="['custom-toggle', { active: notifyPrefs.channelAnalytics }]">
+              <div
+                :class="[
+                  'custom-toggle',
+                  { active: notifyPrefs.channelAnalytics },
+                ]"
+              >
                 <span class="toggle-slider"></span>
               </div>
             </div>
-
           </div>
         </div>
 
@@ -470,9 +582,13 @@ const togglePref = (key) => {
             <h3 class="card-title">Live Notification Logs</h3>
             <span class="inbox-count">{{ notificationInbox.length }} logs</span>
           </div>
-          
+
           <div v-if="notificationInbox.length > 0" class="inbox-list">
-            <div v-for="item in notificationInbox" :key="item.id" class="inbox-item">
+            <div
+              v-for="item in notificationInbox"
+              :key="item.id"
+              class="inbox-item"
+            >
               <div class="inbox-item-icon">{{ item.icon }}</div>
               <div class="inbox-item-content">
                 <div class="inbox-item-header">
@@ -484,12 +600,13 @@ const togglePref = (key) => {
             </div>
           </div>
           <div v-else class="inbox-empty">
-            <p>No notifications triggered yet. Click "Trigger Instant Alert" to see logs populate here.</p>
+            <p>
+              No notifications triggered yet. Click "Trigger Instant Alert" to
+              see logs populate here.
+            </p>
           </div>
         </div>
-
       </div>
-
     </div>
   </div>
 </template>
@@ -509,7 +626,11 @@ const togglePref = (key) => {
   left: 5%;
   width: 300px;
   height: 300px;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+  background: radial-gradient(
+    circle,
+    rgba(99, 102, 241, 0.15) 0%,
+    transparent 70%
+  );
   filter: blur(80px);
   z-index: 0;
   pointer-events: none;
@@ -521,7 +642,11 @@ const togglePref = (key) => {
   right: 5%;
   width: 350px;
   height: 350px;
-  background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 70%);
+  background: radial-gradient(
+    circle,
+    rgba(168, 85, 247, 0.15) 0%,
+    transparent 70%
+  );
   filter: blur(100px);
   z-index: 0;
   pointer-events: none;
@@ -544,7 +669,11 @@ const togglePref = (key) => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.15), transparent 60%);
+  background: radial-gradient(
+    circle at 80% 20%,
+    rgba(139, 92, 246, 0.15),
+    transparent 60%
+  );
 }
 
 /* Profile Grid */
@@ -577,7 +706,9 @@ const togglePref = (key) => {
   padding: 1.5rem;
   margin-bottom: 1.5rem;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s ease;
+  transition:
+    transform 0.3s cubic-bezier(0.25, 1, 0.5, 1),
+    border-color 0.3s ease;
 }
 
 .glass-card:hover {
@@ -792,7 +923,8 @@ const togglePref = (key) => {
   letter-spacing: 0.05em;
 }
 
-.form-input, .form-textarea {
+.form-input,
+.form-textarea {
   width: 100%;
   box-sizing: border-box;
   background: rgba(10, 15, 29, 0.7);
@@ -805,7 +937,8 @@ const togglePref = (key) => {
   transition: all 0.2s;
 }
 
-.form-input:focus, .form-textarea:focus {
+.form-input:focus,
+.form-textarea:focus {
   outline: none;
   border-color: #6366f1;
   box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);
@@ -883,9 +1016,18 @@ const togglePref = (key) => {
 }
 
 @keyframes pulseBell {
-  0% { transform: scale(1); filter: drop-shadow(0 0 2px rgba(99, 102, 241, 0.2)); }
-  50% { transform: scale(1.08) rotate(10deg); filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.6)); }
-  100% { transform: scale(1); filter: drop-shadow(0 0 2px rgba(99, 102, 241, 0.2)); }
+  0% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 2px rgba(99, 102, 241, 0.2));
+  }
+  50% {
+    transform: scale(1.08) rotate(10deg);
+    filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.6));
+  }
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 2px rgba(99, 102, 241, 0.2));
+  }
 }
 
 .permission-status-box {
@@ -916,10 +1058,26 @@ const togglePref = (key) => {
   letter-spacing: 0.03em;
 }
 
-.badge-success { background-color: #065f46; color: #a7f3d0; border: 1px solid #047857; }
-.badge-warning { background-color: #78350f; color: #fde68a; border: 1px solid #b45309; }
-.badge-danger { background-color: #7f1d1d; color: #fecaca; border: 1px solid #b91c1c; }
-.badge-secondary { background-color: #374151; color: #d1d5db; border: 1px solid #4b5563; }
+.badge-success {
+  background-color: #065f46;
+  color: #a7f3d0;
+  border: 1px solid #047857;
+}
+.badge-warning {
+  background-color: #78350f;
+  color: #fde68a;
+  border: 1px solid #b45309;
+}
+.badge-danger {
+  background-color: #7f1d1d;
+  color: #fecaca;
+  border: 1px solid #b91c1c;
+}
+.badge-secondary {
+  background-color: #374151;
+  color: #d1d5db;
+  border: 1px solid #4b5563;
+}
 
 .permission-description {
   margin: 0 0 1.25rem 0;
@@ -928,8 +1086,12 @@ const togglePref = (key) => {
   color: var(--text-secondary);
 }
 
-.permission-description.text-success { color: #34d399; }
-.permission-description.text-danger { color: #f87171; }
+.permission-description.text-success {
+  color: #34d399;
+}
+.permission-description.text-danger {
+  color: #f87171;
+}
 
 .section-title {
   margin: 0 0 0.75rem 0;
@@ -1237,7 +1399,8 @@ const togglePref = (key) => {
 }
 
 /* Transitions */
-.toast-fade-enter-active, .toast-fade-leave-active {
+.toast-fade-enter-active,
+.toast-fade-leave-active {
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .toast-fade-enter-from {
@@ -1249,11 +1412,13 @@ const togglePref = (key) => {
   transform: translateY(-10px) scale(0.95);
 }
 
-.slide-down-enter-active, .slide-down-leave-active {
+.slide-down-enter-active,
+.slide-down-leave-active {
   transition: all 0.3s ease;
   max-height: 400px;
 }
-.slide-down-enter-from, .slide-down-leave-to {
+.slide-down-enter-from,
+.slide-down-leave-to {
   opacity: 0;
   max-height: 0;
   transform: translateY(-10px);
@@ -1263,12 +1428,24 @@ const togglePref = (key) => {
 }
 
 @keyframes slideIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>

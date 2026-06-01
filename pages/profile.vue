@@ -461,18 +461,6 @@ const togglePref = (key) => {
           <div class="quick-notif-actions">
             <h4 class="section-title">Developer Utilities</h4>
             <div class="button-row">
-              <button
-                class="btn btn-primary btn-glow-purple"
-                :disabled="permissionStatus !== 'granted'"
-                @click="
-                  sendPwaNotification(
-                    'Huevangxp Uploaded a Video',
-                    'Nuxt 3 PWA Masterclass: Building offline apps with Workbox. Watch now!',
-                  )
-                "
-              >
-                Simulate Video Upload
-              </button>
 
               <div class="scheduler-box">
                 <button

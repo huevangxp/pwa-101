@@ -44,12 +44,12 @@ const triggerPeriodicNotification = async () => {
 const startPeriodicNotifications = () => {
   if (periodicTimer) clearInterval(periodicTimer);
   
-  // Set up the interval (every 5 minutes = 5 * 60 * 1000 = 300,000 ms)
+  // Set up the interval (every 5 seconds = 5 * 1000 = 5,000 ms)
   periodicTimer = setInterval(() => {
     triggerPeriodicNotification();
-  }, 5 * 60 * 1000);
+  }, 5 * 1000);
   
-  console.log("Start Pro PWA: 5-minute periodic notification timer started.");
+  console.log("Start Pro PWA: 5-second periodic notification timer started.");
 };
 
 onMounted(() => {

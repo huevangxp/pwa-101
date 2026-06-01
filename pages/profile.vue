@@ -93,7 +93,7 @@ const requestPermission = async () => {
     permissionStatus.value = permission
     if (permission === 'granted') {
       showToast("Notification permission granted! Welcome aboard.", "success")
-      sendPwaNotification("Notifications Enabled! 🔔", "You will now receive beautiful notifications from HVX Pro.")
+      sendPwaNotification("Start Pro Subscription Activated", "You have successfully subscribed to channel updates from Huevangxp.")
     } else if (permission === 'denied') {
       showToast("Permission denied. You can re-enable this in browser settings.", "error")
     }
@@ -164,8 +164,8 @@ const scheduleNotification = () => {
   
   setTimeout(() => {
     sendPwaNotification(
-      "⚡ Background PWA Alert",
-      `This is your scheduled notification after ${scheduleSeconds.value} seconds!`
+      "Huevangxp Live Stream Starting",
+      `Join Huevangxp live right now for the weekly Nuxt 3 developer stream.`
     )
     isScheduling.value = false
   }, scheduleSeconds.value * 1000)
@@ -382,9 +382,9 @@ const togglePref = (key) => {
               <button 
                 class="btn btn-primary btn-glow-purple" 
                 :disabled="permissionStatus !== 'granted'"
-                @click="sendPwaNotification('⚡ Instant PWA Notification', 'Wow! Custom HTML5 PWA notification triggered instantly.')"
+                @click="sendPwaNotification('Huevangxp Uploaded a Video', 'Nuxt 3 PWA Masterclass: Building offline apps with Workbox. Watch now!')"
               >
-                Trigger Instant Alert
+                Simulate Video Upload
               </button>
               
               <div class="scheduler-box">

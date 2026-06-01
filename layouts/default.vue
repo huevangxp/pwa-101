@@ -21,7 +21,7 @@ onMounted(() => {
       <div class="header-content">
         <div class="brand">
           <span class="brand-logo">⚡</span>
-          <span class="brand-name">Nuxt PWA</span>
+          <span class="brand-name">Start Pro</span>
         </div>
 
         <!-- Desktop Navigation -->

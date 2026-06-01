@@ -6,22 +6,29 @@ const pwaEvent = useState("pwaEvent", () => null);
 let periodicTimer = null;
 
 const triggerPeriodicNotification = async () => {
-  if (!process.client || !('Notification' in window) || Notification.permission !== 'granted') return;
+  if (
+    !process.client ||
+    !("Notification" in window) ||
+    Notification.permission !== "granted"
+  )
+    return;
 
   // Respect user notification preferences from profile settings
   try {
-    const storedPrefs = localStorage.getItem('start_pro_notify_prefs');
+    const storedPrefs = localStorage.getItem("start_pro_notify_prefs");
     if (storedPrefs) {
       const prefs = JSON.parse(storedPrefs);
       if (prefs && prefs.newVideos === false) {
-        console.log("Start Pro PWA: Periodic notification skipped because 'New Upload Alerts' preference is disabled.");
+        console.log(
+          "Start Pro PWA: Periodic notification skipped because 'New Upload Alerts' preference is disabled.",
+        );
         return;
       }
     }
   } catch (e) {
     console.warn("Start Pro PWA: Could not read notification preferences:", e);
   }
-  
+
   const title = "Start Pro Channel Update 🔔";
   const options = {
     body: "Start Pro App just posted a new tutorial! Watch now to learn advanced PWA development features.",
@@ -31,12 +38,12 @@ const triggerPeriodicNotification = async () => {
     tag: "start-pro-periodic",
     renotify: true,
     data: {
-      url: window.location.origin + "/profile"
-    }
+      url: window.location.origin + "/profile",
+    },
   };
 
   try {
-    if ('serviceWorker' in navigator) {
+    if ("serviceWorker" in navigator) {
       const reg = await navigator.serviceWorker.ready;
       if (reg) {
         await reg.showNotification(title, options);
@@ -57,12 +64,12 @@ const triggerPeriodicNotification = async () => {
 
 const startPeriodicNotifications = () => {
   if (periodicTimer) clearInterval(periodicTimer);
-  
+
   // Set up the interval (every 5 seconds = 5 * 1000 = 5,000 ms)
   periodicTimer = setInterval(() => {
     triggerPeriodicNotification();
-  }, 5 * 1000);
-  
+  }, 5 * 100);
+
   console.log("Start Pro PWA: 5-second periodic notification timer started.");
 };
 
@@ -76,18 +83,27 @@ onMounted(() => {
   });
 
   // Start periodic timer if permission is already granted
-  if (process.client && 'Notification' in window && Notification.permission === 'granted') {
+  if (
+    process.client &&
+    "Notification" in window &&
+    Notification.permission === "granted"
+  ) {
     startPeriodicNotifications();
   }
 
   // Listen for enabling event from homepage permission prompt modal
-  window.addEventListener('start-pro-notifications-enabled', () => {
+  window.addEventListener("start-pro-notifications-enabled", () => {
     startPeriodicNotifications();
   });
-  
+
   // Recheck on focus to capture permissions granted in browser settings
-  window.addEventListener('focus', () => {
-    if (process.client && 'Notification' in window && Notification.permission === 'granted' && !periodicTimer) {
+  window.addEventListener("focus", () => {
+    if (
+      process.client &&
+      "Notification" in window &&
+      Notification.permission === "granted" &&
+      !periodicTimer
+    ) {
       startPeriodicNotifications();
     }
   });

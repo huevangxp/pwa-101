@@ -7,6 +7,20 @@ let periodicTimer = null;
 
 const triggerPeriodicNotification = async () => {
   if (!process.client || !('Notification' in window) || Notification.permission !== 'granted') return;
+
+  // Respect user notification preferences from profile settings
+  try {
+    const storedPrefs = localStorage.getItem('start_pro_notify_prefs');
+    if (storedPrefs) {
+      const prefs = JSON.parse(storedPrefs);
+      if (prefs && prefs.newVideos === false) {
+        console.log("Start Pro PWA: Periodic notification skipped because 'New Upload Alerts' preference is disabled.");
+        return;
+      }
+    }
+  } catch (e) {
+    console.warn("Start Pro PWA: Could not read notification preferences:", e);
+  }
   
   const title = "Start Pro Channel Update 🔔";
   const options = {

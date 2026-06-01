@@ -1,32 +1,20 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { ref, onMounted } from "vue";
 
 const showPopupAd = ref(false);
 const pwaEvent = useState("pwaEvent");
 
 const promoImages = [
-  'https://hvx.vn/images/promotion.png',
-  'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=300&q=80',
-  'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&h=300&q=80'
+  "https://hvx.vn/images/promotion.png",
+  "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=300&q=80",
+  "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&h=300&q=80",
 ];
-
-const currentSlide = ref(0);
-let slideInterval = null;
 
 onMounted(() => {
   // Show popup ad after 3 seconds of watching
   setTimeout(() => {
     showPopupAd.value = true;
   }, 3000);
-
-  // Auto cycle banner slides
-  slideInterval = setInterval(() => {
-    currentSlide.value = (currentSlide.value + 1) % promoImages.length;
-  }, 4000);
-});
-
-onBeforeUnmount(() => {
-  if (slideInterval) clearInterval(slideInterval);
 });
 
 const triggerInstall = async () => {
@@ -42,18 +30,6 @@ const triggerInstall = async () => {
     );
   }
   showPopupAd.value = false;
-};
-
-const prevSlide = () => {
-  currentSlide.value = (currentSlide.value - 1 + promoImages.length) % promoImages.length;
-};
-
-const nextSlide = () => {
-  currentSlide.value = (currentSlide.value + 1) % promoImages.length;
-};
-
-const setSlide = (idx) => {
-  currentSlide.value = idx;
 };
 </script>
 
@@ -106,40 +82,26 @@ const setSlide = (idx) => {
           </div>
         </div>
 
-        <!-- Advertisement Space Promoting Our Website (Image Slideshow) -->
-        <div class="ad-space-container" style="margin-top: 1rem; width: 100%">
-          <div class="ad-banner-image slider-container">
+        <!-- Advertisement Space Promoting Our Website (List of 3 Banners) -->
+        <div
+          class="ad-space-container"
+          style="
+            margin-top: 1rem;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+          "
+        >
+          <div
+            v-for="(img, idx) in promoImages"
+            :key="idx"
+            class="ad-banner-image"
+          >
             <span class="ad-label">Promoted</span>
-            
-            <div class="slider-wrapper">
-              <a href="#install" class="ad-link" @click.prevent="triggerInstall">
-                <div 
-                  v-for="(img, idx) in promoImages" 
-                  :key="idx" 
-                  :class="['slide', { active: currentSlide === idx }]"
-                >
-                  <img :src="img" alt="Promote HVX Pro" class="ad-img" />
-                </div>
-              </a>
-            </div>
-
-            <!-- Navigation Arrows -->
-            <button class="slider-arrow arrow-prev" @click="prevSlide" aria-label="Previous slide">
-              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            </button>
-            <button class="slider-arrow arrow-next" @click="nextSlide" aria-label="Next slide">
-              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="9 18 15 12 9 6"></polyline></svg>
-            </button>
-
-            <!-- Indicators -->
-            <div class="slider-dots">
-              <span 
-                v-for="(img, idx) in promoImages" 
-                :key="idx" 
-                :class="['dot', { active: currentSlide === idx }]"
-                @click="setSlide(idx)"
-              ></span>
-            </div>
+            <a href="#install" class="ad-link" @click.prevent="triggerInstall">
+              <img :src="img" alt="HVX Pro Promotion" class="ad-img" />
+            </a>
           </div>
         </div>
       </div>
@@ -209,13 +171,14 @@ const setSlide = (idx) => {
       </div>
     </div>
 
-    <!-- Popup Ad Overlay Promoting Our Website -->
+    <!-- Popup Ad Overlay Promoting Our Website (Image Only) -->
     <div
       v-if="showPopupAd"
       class="popup-ad-overlay"
       @click.self="showPopupAd = false"
     >
-      <div class="popup-ad-content">
+      <div class="popup-ad-content image-only-popup">
+        <!-- Close Button -->
         <button
           class="popup-close"
           @click="showPopupAd = false"
@@ -223,34 +186,29 @@ const setSlide = (idx) => {
         >
           <svg
             viewBox="0 0 24 24"
-            width="24"
-            height="24"
+            width="20"
+            height="20"
             stroke="currentColor"
-            stroke-width="2"
+            stroke-width="2.5"
             fill="none"
           >
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
         </button>
-        <p class="popup-sponsored">Promoted</p>
-        <h2 class="popup-title">Enjoy HVX Pro Anywhere!</h2>
-        <img
-          src="https://picsum.photos/seed/hvxprowatch/600/300"
-          alt="HVX Pro App Mockup"
-          class="popup-img"
-        />
-        <p class="popup-desc">
-          Add HVX Pro to your home screen for instant access, offline playback
-          support, and a modern app-like experience.
-        </p>
-        <button
-          class="popup-btn"
-          @click="triggerInstall"
-          style="border: none; cursor: pointer"
+
+        <!-- Clickable Image Promotion -->
+        <a
+          href="#install"
+          class="popup-image-link"
+          @click.prevent="triggerInstall"
         >
-          Install HVX Pro
-        </button>
+          <img
+            src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&h=300&q=80"
+            alt="HVX Pro Promotion"
+            class="popup-img-only"
+          />
+        </a>
       </div>
     </div>
   </div>
@@ -612,117 +570,58 @@ const setSlide = (idx) => {
   opacity: 0.9;
 }
 
-/* Image Slider styles */
-.slider-container {
-  position: relative;
-  height: 120px;
+/* Image-only popup styles */
+.image-only-popup {
+  padding: 0 !important;
   overflow: hidden;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  max-width: 1050px !important;
 }
 
-@media (min-width: 640px) {
-  .slider-container {
-    height: 150px;
-  }
-}
-
-.slider-wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.slider-wrapper .ad-link {
+.popup-image-link {
   display: block;
   width: 100%;
   height: 100%;
-}
-
-.slide {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-  pointer-events: none;
-}
-
-.slide.active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.slide .ad-img {
-  width: 100%;
-  height: 100% !important;
-  object-fit: cover;
-}
-
-.slider-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(10, 15, 29, 0.7);
+  cursor: pointer;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--text-primary);
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
+}
+
+.popup-img-only {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.popup-image-link:hover .popup-img-only {
+  transform: scale(1.02);
+}
+
+.image-only-popup .popup-close {
+  top: 0.75rem;
+  right: 0.75rem;
+  background: rgba(10, 15, 29, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
+  border-radius: 50%;
   z-index: 10;
-  opacity: 0;
-  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
 }
 
-.slider-container:hover .slider-arrow {
-  opacity: 1;
-}
-
-.arrow-prev {
-  left: 0.75rem;
-}
-
-.arrow-next {
-  right: 0.75rem;
-}
-
-.slider-arrow:hover {
+.image-only-popup .popup-close:hover {
   background: var(--accent-gradient);
   border-color: transparent;
-  transform: translateY(-50%) scale(1.05);
-}
-
-.slider-dots {
-  position: absolute;
-  bottom: 0.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 6px;
-  z-index: 10;
-}
-
-.dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.35);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.dot:hover {
-  background: rgba(255, 255, 255, 0.6);
-}
-
-.dot.active {
-  background: #ffffff;
-  transform: scale(1.2);
-  box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+  transform: rotate(90deg);
 }
 </style>

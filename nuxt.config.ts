@@ -6,15 +6,15 @@ export default defineNuxtConfig({
 
   vite: {
     server: {
-      allowedHosts: true // Allow ngrok and other tunnel hosts
-    }
+      allowedHosts: true, // Allow ngrok and other tunnel hosts
+    },
   },
 
   pwa: {
     registerType: "autoUpdate",
     manifest: {
-      name: "HVX Pro",
-      short_name: "HVXPro",
+      name: "Start Pro",
+      short_name: "StartPro",
       description: "A professional website.",
       theme_color: "#ffffff",
       start_url: "/",
